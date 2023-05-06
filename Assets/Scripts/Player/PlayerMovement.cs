@@ -8,7 +8,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] public float moveSpeed { get; set; } = 3f ;
+    [SerializeField] public float baseMoveSpeed { get; set; } = 3f ;
+    private float moveSpeed;
     [SerializeField] float sprintDuration = 1;
     [SerializeField] float reloadDuration = 3;
     public bool sprintCharged { get; set; } = true;
@@ -19,19 +20,10 @@ public class PlayerMovement : MonoBehaviour
     Vector2 currentMovement;
     bool movementPressed = false;
 
-#if UNITY_EDITOR
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(GameObject.FindGameObjectWithTag("Player").transform.position, 10);
-    }
-#endif
-
-
 	void Awake()
     {
         input = new PlayerInput();
-
+        moveSpeed = baseMoveSpeed;
 
         input.CharacterControls.Movement.performed += ctx =>
         {
@@ -49,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (sprintCharged)
             {
-                float boost = moveSpeed * 1.5f;
+                float boost = baseMoveSpeed * 1.2f;
                 sprintCharged = false;
                 StartCoroutine(Sprint(boost, sprintDuration, reloadDuration));
             }
