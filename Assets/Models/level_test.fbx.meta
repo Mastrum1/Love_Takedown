@@ -3,7 +3,32 @@ guid: 43498c74b42b0de4d998bd3f3fece345
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: corps
+    second: {fileID: 2100000, guid: 82089f8e71abd8b4fa50ede9b81bcde8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: fer1
+    second: {fileID: 2100000, guid: 6afb8aa0369ecac4eb3b8cded6452b5e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: 58a253664546c984ba73694df4d4fb76, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: planche
+    second: {fileID: 2100000, guid: f7afac8f7ca486b4a8d9903cb776d9a9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tete1
+    second: {fileID: 2100000, guid: 0a5b164135f876d4d91552d17352b97e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
