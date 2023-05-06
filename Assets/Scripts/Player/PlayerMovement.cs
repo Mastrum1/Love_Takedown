@@ -1,23 +1,36 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
 
-    [SerializeField] int moveSpeed = 3;
+    [SerializeField] public float moveSpeed { get; set; } = 3f ;
+    [SerializeField] float sprintDuration = 1;
+    [SerializeField] float reloadDuration = 3;
+    bool sprintCharged = true;
 
     PlayerInput input;
 
-    //Variables to store input from the player
-    Vector2 currentMovement; // Movement input from the player
-    bool movementPressed = false; // Is the player pressing a movement key
+    Vector2 currentMovement;
+    bool movementPressed = false;
+
+#if UNITY_EDITOR
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(GameObject.FindGameObjectWithTag("Player").transform.position, 10);
+    }
+#endif
 
     void Awake()
     {
         input = new PlayerInput();
+
 
         input.CharacterControls.Movement.performed += ctx =>
         {
@@ -30,6 +43,25 @@ public class PlayerMovement : MonoBehaviour
             currentMovement = Vector2.zero;
             movementPressed = false;
         };
+
+        input.CharacterControls.Sprint.performed += ctx =>
+        {
+            if (sprintCharged)
+            {
+                float boost = moveSpeed * 1.5f;
+                sprintCharged = false;
+                StartCoroutine(Sprint(boost, sprintDuration, reloadDuration));
+            }
+        };    
+    }
+
+    IEnumerator Sprint(float speed, float sprintDuration, float reloadDuration)
+    {
+        moveSpeed += speed;
+        yield return new WaitForSeconds(sprintDuration);
+        moveSpeed -= speed;
+        yield return new WaitForSeconds(reloadDuration);
+        sprintCharged = true;
     }
 
     void OnEnable()
