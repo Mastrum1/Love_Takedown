@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    [SerializeField] int maxHp  = 3;
+    [SerializeField] int maxHp = 3;
     public int currentHp { get; set; }
 
     // Start is called before the first frame update

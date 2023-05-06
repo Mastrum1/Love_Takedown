@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float moveSpeed { get; set; } = 3f ;
     [SerializeField] float sprintDuration = 1;
     [SerializeField] float reloadDuration = 3;
-    bool sprintCharged = true;
+    public bool sprintCharged { get; set; } = true;
 
 
     PlayerInput input;
