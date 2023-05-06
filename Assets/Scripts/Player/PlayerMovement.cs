@@ -8,11 +8,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-
     [SerializeField] public float moveSpeed { get; set; } = 3f ;
     [SerializeField] float sprintDuration = 1;
     [SerializeField] float reloadDuration = 3;
     bool sprintCharged = true;
+
 
     PlayerInput input;
 
@@ -27,7 +27,8 @@ public class PlayerMovement : MonoBehaviour
     }
 #endif
 
-    void Awake()
+
+	void Awake()
     {
         input = new PlayerInput();
 
