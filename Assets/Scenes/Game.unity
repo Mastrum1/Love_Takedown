@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -464,7 +464,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   m_LocalRotation: {x: 0.19134171, y: -0.8001032, z: 0.46193978, w: 0.33141357}
-  m_LocalPosition: {x: 505.00333, y: 14.094382, z: 505.3033}
+  m_LocalPosition: {x: 505.00333, y: 14.094381, z: 505.3033}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1163,7 +1163,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!136 &1519350551
 CapsuleCollider:
@@ -1294,7 +1294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47abadb5d775b2344a006af31ae38d00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 8844181815162814096, guid: 862e1b333bed3b945919d9cfea8aa442, type: 3}
+  enemy: {fileID: 5152322914787271259, guid: 862e1b333bed3b945919d9cfea8aa442, type: 3}
   spawnRate: 1
   spawnActive: 1
   Spawner1: {fileID: 930412411}

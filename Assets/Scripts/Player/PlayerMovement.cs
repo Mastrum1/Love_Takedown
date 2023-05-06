@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
 
-    [SerializeField] int moveSpeed = 3;
+    [SerializeField] public float moveSpeed { get; set; } = 3f;
 
     PlayerInput input;
 
@@ -15,7 +15,8 @@ public class PlayerMovement : MonoBehaviour
     Vector2 currentMovement; // Movement input from the player
     bool movementPressed = false; // Is the player pressing a movement key
 
-    void Awake()
+
+	void Awake()
     {
         input = new PlayerInput();
 
