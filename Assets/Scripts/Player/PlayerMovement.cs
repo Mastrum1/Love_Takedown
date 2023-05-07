@@ -8,30 +8,31 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] public float moveSpeed { get; set; } = 3f ;
+    public float baseMoveSpeed = 3f ;
+    private float moveSpeed;
     [SerializeField] float sprintDuration = 1;
     [SerializeField] float reloadDuration = 3;
-    public bool sprintCharged { get; set; } = true;
+    public bool sprintCharged = true;
 
+    Animator animator;
+
+    int isWalkingHash;
+    int isRunningHash;
 
     PlayerInput input;
 
     Vector2 currentMovement;
     bool movementPressed = false;
-
-#if UNITY_EDITOR
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(GameObject.FindGameObjectWithTag("Player").transform.position, 10);
-    }
-#endif
-
+    bool runPressed = false;
 
 	void Awake()
     {
         input = new PlayerInput();
+        moveSpeed = baseMoveSpeed;
+        animator = GameObject.Find("madame").GetComponent<Animator>();
 
+        isWalkingHash = Animator.StringToHash("isWalking");
+        isRunningHash = Animator.StringToHash("isRunning");
 
         input.CharacterControls.Movement.performed += ctx =>
         {
@@ -49,7 +50,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (sprintCharged)
             {
-                float boost = moveSpeed * 1.5f;
+                runPressed = true;
+                float boost = baseMoveSpeed * 1.2f;
                 sprintCharged = false;
                 StartCoroutine(Sprint(boost, sprintDuration, reloadDuration));
             }
@@ -60,17 +62,43 @@ public class PlayerMovement : MonoBehaviour
     {
         moveSpeed += speed;
         yield return new WaitForSeconds(sprintDuration);
+        runPressed = false;
         moveSpeed -= speed;
         yield return new WaitForSeconds(reloadDuration);
         sprintCharged = true;
     }
 
-    void OnEnable()
+    void handleMovement()
     {
-        input.CharacterControls.Enable();
+        bool isWalking = animator.GetBool(isWalkingHash);
+        bool isRunning = animator.GetBool(isRunningHash);
+
+        if (movementPressed && !isWalking)
+            animator.SetBool(isWalkingHash, true);
+
+        if (!movementPressed && isWalking)
+            animator.SetBool(isWalkingHash, false);
+
+        if ((movementPressed && runPressed) && !isRunning)
+            animator.SetBool(isRunningHash, true);
+
+        if ((!movementPressed || !runPressed ) && isRunning)
+            animator.SetBool(isRunningHash, false);
     }
+
+
+    void handleRotation()
+    {
+        Vector3 currentPosition = GameObject.Find("madame").transform.position; 
+        Vector3 newPosition = new Vector3(currentMovement.x, 0, currentMovement.y);
+        Vector3 positionToLookAt = currentPosition + newPosition;
+        GameObject.Find("madame").transform.LookAt(positionToLookAt);
+    }
+    
     private void Update()
     {
+        handleMovement();
+        handleRotation();
         if (movementPressed)
         {
             Vector3 PlayerForward = GameObject.FindGameObjectWithTag("Player").transform.forward;
@@ -80,5 +108,15 @@ public class PlayerMovement : MonoBehaviour
             Vector3 moveDir = forwardRelative + rightRelative;
             transform.position += Time.deltaTime * moveSpeed * moveDir;
         }
+    }
+
+    void OnEnable()
+    {
+        input.CharacterControls.Enable();
+    }
+
+    private void OnDisable()
+    {
+        input.CharacterControls.Disable();
     }
 }
