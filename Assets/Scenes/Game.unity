@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 0.753
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0023371668, g: 0.0020558983, b: 0.002490682, a: 0.753}
+  m_IndirectSpecularColor: {r: 0.0023795986, g: 0.0020546843, b: 0.0025378265, a: 0.753}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -937,7 +937,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 291088061}
   m_LocalRotation: {x: 0.19134171, y: -0.8001032, z: 0.46193978, w: 0.33141357}
-  m_LocalPosition: {x: -725.1382, y: 7.863209, z: 25.950623}
+  m_LocalPosition: {x: -725.1381, y: 7.86322, z: 25.950684}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1112,7 +1112,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   m_LocalRotation: {x: 0.19134174, y: -0.8001032, z: 0.46193984, w: 0.3314136}
-  m_LocalPosition: {x: -719.83484, y: 20.853592, z: 31.253967}
+  m_LocalPosition: {x: -719.83484, y: 20.853603, z: 31.253967}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5085,6 +5085,7 @@ GameObject:
   - component: {fileID: 1519350550}
   - component: {fileID: 1519350556}
   - component: {fileID: 1519350559}
+  - component: {fileID: 1519350560}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5201,6 +5202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseMoveSpeed: 3
+  moveSpeed: 0
   sprintDuration: 1.3
   reloadDuration: 2.5
   sprintCharged: 1
@@ -5216,8 +5218,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d45c4cbd4a9c6784e8539c8534605998, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  adrenalineScript: {fileID: 1519350560}
+  movement: {fileID: 1519350556}
   maxHp: 3
   currentHp: 0
+  isTakedown: 0
+--- !u!114 &1519350560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519350549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4ce56ad0229649889de36cb730599fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxAdrenaline: 100
+  adrenaline: 0
+  adrenalineIncreaseSpeed: 0
 --- !u!1001 &1520217496
 PrefabInstance:
   m_ObjectHideFlags: 0

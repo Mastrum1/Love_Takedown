@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public float baseMoveSpeed = 3f ;
-    private float moveSpeed;
+    public float moveSpeed;
     [SerializeField] float sprintDuration = 1;
     [SerializeField] float reloadDuration = 3;
     public bool sprintCharged = true;
