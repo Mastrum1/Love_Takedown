@@ -4,25 +4,37 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ButtonCursors : MonoBehaviour
+public class ButtonCursors : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 	[SerializeField]
-	GameObject cursor;
-	Button button;
+	bool defaultSelected = false;
+	public GameObject cursor;
 	EventSystem eventSystem;
+	static ButtonCursors lastSelectedWithMouse;
 
-	private void Awake()
+	public void Awake()
 	{
-		button = GetComponent<Button>();
 		eventSystem = EventSystem.current;
-	}
-
-	void Update()
-	{
-		if (eventSystem.currentSelectedGameObject == gameObject)
+		if (defaultSelected)
+		{
+			eventSystem.SetSelectedGameObject(gameObject);
 			cursor.SetActive(true);
+		}
 		else
 			cursor.SetActive(false);
-		
+	}
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+		if (lastSelectedWithMouse != null && lastSelectedWithMouse != this)
+		{
+			lastSelectedWithMouse.cursor.SetActive(false);
+		}
+		cursor.SetActive(true);
+		lastSelectedWithMouse = this;
+	}
+
+	public void OnPointerExit(PointerEventData eventData)
+	{
 	}
 }
