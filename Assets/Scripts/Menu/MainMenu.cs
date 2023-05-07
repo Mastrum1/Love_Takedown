@@ -7,11 +7,18 @@ public class MainMenu : MonoBehaviour
 {
    public void PlayGame()
 	{
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);  
+		GameObject.Find("AudioManager").GetComponent<AudioController>().PlayMusic(GameObject.Find("AudioManager").GetComponent<AudioController>().Musics[1]);
+		StartCoroutine(m_PlayGame());
 	}
 
 	public void QuitGame()
 	{
 		Application.Quit();
+	}
+
+	private IEnumerator m_PlayGame()
+	{
+		yield return new WaitForSeconds(10);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 }

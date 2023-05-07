@@ -22,10 +22,15 @@ public class EnnemyMovement : MonoBehaviour
 	float distanceToPlayer;
 
 	GameObject player;
+	Animator animator;
 
-	private void Start()
+    int isRunningHash;
+
+    private void Start()
 	{
-		playerSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().baseMoveSpeed;
+		animator = gameObject.GetComponent<Animator>();
+        isRunningHash = Animator.StringToHash("isRunning");
+        playerSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().baseMoveSpeed;
 		minEnnemySpeed = playerSpeed - (playerSpeed / 6);
 		maxEnnemySpeed = playerSpeed - (playerSpeed / 2);
 		normalSpeed = Random.Range(minEnnemySpeed, maxEnnemySpeed);
@@ -43,6 +48,7 @@ public class EnnemyMovement : MonoBehaviour
 	void Update()
 	{
 		float step = speed * Time.deltaTime;
+		gameObject.transform.LookAt(player.transform);
 		gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, player.transform.position, step);
 		timeUntilNextBurst -= Time.deltaTime;
         if (timeUntilNextBurst <= 0)
@@ -56,15 +62,18 @@ public class EnnemyMovement : MonoBehaviour
 	{
 		isBurstActivate = Random.Range(0, 100);
         distanceToPlayer = Vector3.Distance(gameObject.transform.position, player.transform.position);
+
 		if (distanceToPlayer <= minSprintDistance)
 			energy--;
         if (distanceToPlayer <= minSprintDistance && isBurstActivate <= 50 && energy > 0)
 		{
             speed = burstSpeed;
             energy -= 5;
+			animator.SetBool(isRunningHash, true);
         }
 		yield return new WaitForSeconds(burstDuration);
 		speed = normalSpeed;
+		animator.SetBool(isRunningHash, false);
 		StartCoroutine(LoseEnergy());
 
 	}
