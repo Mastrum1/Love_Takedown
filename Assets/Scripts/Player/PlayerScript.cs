@@ -1,24 +1,25 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-	[SerializeField]
-	Adrenaline		adrenalineScript;
-	[SerializeField]
-	PlayerMovement	movement;
-	[SerializeField]
-	int				maxHp = 3;
-	public int		currentHp;
-	[SerializeField]
-	bool			isTakedown = false;
+    [SerializeField] int maxHp = 3;
+    [SerializeField] bool isTakedown = false;
+
+    public int currentHp;
+
+    Adrenaline adrenalineScript;
+	PlayerMovement movement;
 
 	void Start()
 	{
 		currentHp = maxHp;
+		adrenalineScript = gameObject.GetComponent<Adrenaline>();
+		movement = gameObject.GetComponent<PlayerMovement>();
 	}
 
 	void Update()
@@ -43,12 +44,16 @@ public class PlayerScript : MonoBehaviour
 			{
 				if (currentHp > 0)
 					currentHp--;
+					if (currentHp == 2)
+					TakeFirstDamage();
+					gameObject.GetComponent<Collider>().enabled = false;
+						
 				Debug.Log("Player HP: " + currentHp);
 			}
 			else
 			{
-				float	launchForceUp = 5f;
-				float	launchForceSide = 10f;
+				float	launchForceUp = 8f;
+				float	launchForceSide = 6f;
 				Vector3 forceDirection;
 				Vector3 force;
 
@@ -58,12 +63,28 @@ public class PlayerScript : MonoBehaviour
 				forceDirection.z += Random.Range(-0.2f, 0.2f);
 
 				force = (Vector3.up * launchForceUp) + (forceDirection * launchForceSide);
+				collision.gameObject.GetComponent<EnnemyMovement>().enabled = false;
+				collision.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 				enemyRigidbody.AddForce(force, ForceMode.Impulse);
 			}
 		}
 	}
 
-	IEnumerator ActivateTakedown()
+	public void TakeFirstDamage()
+	{
+		GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().Reacts[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Reacts.Length)]);
+		StartCoroutine(waitForReact());
+	}
+
+	IEnumerator waitForReact()
+	{
+		yield return new WaitForSeconds(1f);
+		GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().Damage1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Damage1.Length)]);
+		GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect2(GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur1.Length)]);
+
+    }
+
+    IEnumerator ActivateTakedown()
 	{
 		Debug.Log("TAKEDOWN !!!!");
 		isTakedown = true;

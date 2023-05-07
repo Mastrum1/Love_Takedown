@@ -16,18 +16,25 @@ public class AudioController : MonoBehaviour
     public AudioClip[] Reacts;
     public AudioClip[] Damage1;
     public AudioClip[] Damage2;
-    public AudioClip[] Coeur;
+    public AudioClip[] Coeur1;
+    public AudioClip[] Coeur2;
     public AudioClip[] Ennemy;
     public AudioClip lamp;
 
-    private AudioSource m_Source;
+    public AudioSource Music;
+    private AudioSource m_Effect1;
+    private AudioSource m_Effect2;
+    private AudioSource[] SoundsAudio;
     private float timer;
 
     private void Awake()
     {
-        m_Source = GetComponent<AudioSource>();
+        SoundsAudio = GetComponents<AudioSource>();
+        Music = SoundsAudio[0];
+        m_Effect1 = SoundsAudio[1];
+        m_Effect2 = SoundsAudio[2];
 
-        volume = m_Source.volume;
+        volume = Music.volume;
     }
 
     // Start is called before the first frame update
@@ -41,10 +48,13 @@ public class AudioController : MonoBehaviour
         }
         else Destroy(gameObject);
 
-        m_Source.clip = Musics[0];
-        m_Source.loop = true;
-        m_Source.volume = volume;
-        m_Source.Play();
+        Music.clip = Musics[0];
+        Music.loop = true;
+        Music.volume = volume;
+        Music.Play();
+
+        m_Effect1.clip = Damage1[0];
+        m_Effect2.clip = Damage2[0];
     }
 
     // Update is called once per frame
@@ -55,27 +65,37 @@ public class AudioController : MonoBehaviour
 
     public void PlayAndPose()
     {
-        if(!m_Source.isPlaying)
-            m_Source.Play();
-        else m_Source.Pause();
+        if(!Music.isPlaying)
+            Music.Play();
+        else Music.Pause();
     }
 
     public void PlayMusic(AudioClip source)
     {
-        m_Source.clip = source;
-        m_Source.Play();
+        Music.clip = source;
+        Music.Play();
+    }
+    public void PlayEffect1(AudioClip source)
+    {
+        m_Effect1.clip = source;
+        m_Effect1.Play();
+    }
+    public void PlayEffect2(AudioClip source)
+    {
+        m_Effect2.clip = source;
+        m_Effect2.Play();
     }
 
     public IEnumerator FadeOutVolumeMusic(float duration)
     {
         float startVolume = gameObject.GetComponent<AudioSource>().volume;
-        while (m_Source.volume > 0)
+        while (Music.volume > 0)
         {
             gameObject.GetComponent<AudioSource>().volume -= startVolume * Time.deltaTime / duration;
             Debug.Log(gameObject.GetComponent<AudioSource>().volume);
             yield return null;
         }
-        m_Source.Stop();
-        m_Source.volume = startVolume;
+        Music.Stop();
+        Music.volume = startVolume;
     }
 }

@@ -5266,6 +5266,7 @@ GameObject:
   - component: {fileID: 1519350550}
   - component: {fileID: 1519350556}
   - component: {fileID: 1519350555}
+  - component: {fileID: 1519350557}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5383,6 +5384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 3
+  isTakedown: 0
   currentHp: 0
 --- !u!114 &1519350556
 MonoBehaviour:
@@ -5397,9 +5399,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseMoveSpeed: 3
+  moveSpeed: 0
   sprintDuration: 1.3
   reloadDuration: 2.5
   sprintCharged: 1
+--- !u!114 &1519350557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519350549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4ce56ad0229649889de36cb730599fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxAdrenaline: 1
+  adrenaline: 0
+  adrenalineIncreaseSpeed: 1
 --- !u!1001 &1520217496
 PrefabInstance:
   m_ObjectHideFlags: 0
