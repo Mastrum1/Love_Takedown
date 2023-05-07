@@ -18,6 +18,12 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>(). m_CameraDistance = (12 - ((maxHp - currentHp) * 6))+1;
+        if (currentHp == 3)
+            GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>().m_Lens.NearClipPlane = 21;
+        else if (currentHp == 2)
+            GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>().m_Lens.NearClipPlane = 15;
+        else if (currentHp == 1)
+            GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>().m_Lens.NearClipPlane = 10;
     }
 
     private void OnCollisionEnter(Collision collision)

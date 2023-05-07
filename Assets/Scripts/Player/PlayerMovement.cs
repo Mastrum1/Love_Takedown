@@ -8,11 +8,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] public float baseMoveSpeed { get; set; } = 3f ;
+    public float baseMoveSpeed = 3f ;
     private float moveSpeed;
     [SerializeField] float sprintDuration = 1;
     [SerializeField] float reloadDuration = 3;
-    public bool sprintCharged { get; set; } = true;
+    public bool sprintCharged = true;
 
     Animator animator;
 

@@ -5,15 +5,16 @@ using UnityEngine.InputSystem.XR;
 
 public class EnnemyMovement : MonoBehaviour
 {
-	[SerializeField] int burstDuration;
-	[SerializeField] float normalSpeed;
+	public float speed;
+	public float normalSpeed;
+
+    [SerializeField] int burstDuration;
 	[SerializeField] float burstSpeed;
 	[SerializeField] float minSprintDistance;
 	[SerializeField] int energy;
 
     int isBurstActivate;
 	int energyRecoveryTime;
-    float speed;
 	float maxEnnemySpeed;
 	float minEnnemySpeed;
 	float timeUntilNextBurst;
@@ -25,8 +26,8 @@ public class EnnemyMovement : MonoBehaviour
 	private void Start()
 	{
 		playerSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().baseMoveSpeed;
-		minEnnemySpeed = playerSpeed - (playerSpeed / 4);
-		maxEnnemySpeed = playerSpeed - (playerSpeed / 12);
+		minEnnemySpeed = playerSpeed - (playerSpeed / 6);
+		maxEnnemySpeed = playerSpeed - (playerSpeed / 2);
 		normalSpeed = Random.Range(minEnnemySpeed, maxEnnemySpeed);
 		burstSpeed = normalSpeed * 2;
 		speed = normalSpeed;

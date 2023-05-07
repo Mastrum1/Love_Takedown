@@ -14,6 +14,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] GameObject Spawner2;
     [SerializeField] GameObject Spawner3;
     [SerializeField] GameObject Spawner4;
+    [SerializeField] GameObject Spawner5;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +27,7 @@ public class Spawner : MonoBehaviour
 
         if (spawnActive)
         {
-            switch (Random.Range(1, 5))
+            switch (Random.Range(1, 6))
             {
                 case 1:
                     Instantiate(enemy, Spawner1.transform.position, Spawner4.transform.rotation);
@@ -38,6 +39,9 @@ public class Spawner : MonoBehaviour
                     Instantiate(enemy, Spawner3.transform.position, Spawner4.transform.rotation);
                     break;
                 case 4:
+                    Instantiate(enemy, Spawner4.transform.position, Spawner4.transform.rotation);
+                    break;
+                case 5:
                     Instantiate(enemy, Spawner4.transform.position, Spawner4.transform.rotation);
                     break;
             }
