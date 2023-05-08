@@ -329,6 +329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultSelected: 1
   cursor: {fileID: 958222424}
+  buttonIndex: 0
 --- !u!114 &465787541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,6 +596,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultSelected: 0
   cursor: {fileID: 134001426}
+  buttonIndex: 0
 --- !u!1 &903688892
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,6 +1071,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultSelected: 1
   cursor: {fileID: 958222424}
+  buttonIndex: 0
 --- !u!1 &1303800419
 GameObject:
   m_ObjectHideFlags: 0
@@ -1389,7 +1392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2040411f612af455594b0035394b7d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultButton: {fileID: 0}
+  menuButtons: []
 --- !u!1 &1521602115
 GameObject:
   m_ObjectHideFlags: 0
@@ -1550,6 +1553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultSelected: 0
   cursor: {fileID: 1360479935}
+  buttonIndex: 0
 --- !u!1 &1525265177
 GameObject:
   m_ObjectHideFlags: 0
@@ -1774,6 +1778,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultSelected: 0
   cursor: {fileID: 2053825640}
+  buttonIndex: 0
 --- !u!1 &1751790353
 GameObject:
   m_ObjectHideFlags: 0
@@ -1823,7 +1828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2040411f612af455594b0035394b7d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultButton: {fileID: 1209522091}
+  menuButtons: []
 --- !u!1 &1836403182
 GameObject:
   m_ObjectHideFlags: 0
@@ -2342,6 +2347,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b7497e7635f68a143ba52cd1a47c3a31, type: 3}
   - {fileID: 8300000, guid: 07c21e184d6181844a5c03be5be2c471, type: 3}
   - {fileID: 8300000, guid: 27d4067254c72b84ca4f3c7aab82ecde, type: 3}
+  endSound:
+  - {fileID: 8300000, guid: 6fce51bf3d5f34848a5b20ba7b38105b, type: 3}
+  - {fileID: 8300000, guid: 0c17cfa3186447e48be031bb9d67856f, type: 3}
   lamp: {fileID: 8300000, guid: c4dfe896075510f4dbdd5722dd32c17d, type: 3}
   notification: {fileID: 0}
   takedown: {fileID: 0}

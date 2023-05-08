@@ -34,7 +34,8 @@ public class TaxiScript : MonoBehaviour
 
     public void ActivateTaxi()
 	{
-			Debug.Log("Activating taxi");
+        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect3(GameObject.Find("AudioManager").GetComponent<AudioController>().Car[0]);
+        Debug.Log("Activating taxi");
 			taxiSpawned = true;
 			taxi.SetActive(true);
 			StartCoroutine(MoveTaxi());
@@ -52,6 +53,7 @@ public class TaxiScript : MonoBehaviour
 		WinArea.SetActive(true );
 		yield return new WaitForSeconds(10f);
 		Debug.Log("Taxi finished waiting");
+		StartCoroutine(Loose());
         GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect3(GameObject.Find("AudioManager").GetComponent<AudioController>().Car[1]);
         WinArea.SetActive(false );
 		while (Vector3.Distance(taxi.transform.position, endPoint.transform.position) > 0.02f)
@@ -71,6 +73,6 @@ public class TaxiScript : MonoBehaviour
 	IEnumerator Loose()
 	{
         yield return new WaitForSeconds(10);
-
+		GameObject.Find("GameManager").GetComponent<GameManager>().OnDefeat();
     }
 }

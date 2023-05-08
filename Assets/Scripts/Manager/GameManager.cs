@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -30,12 +31,15 @@ public class GameManager : MonoBehaviour
         } 
     }
 
-    void OnDefeat()
+    public void OnDefeat()
     {
-		SceneManager.LoadScene("DefeatScene");
+        GameObject.Find("AudioManager").GetComponent<AudioController>().m_Effect1.loop = true;
+        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayMusic(GameObject.Find("AudioManager").GetComponent<AudioController>().endSound[0]);
+        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().endSound[1]);
+        SceneManager.LoadScene("DefeatScene");
 	}
 
-    void OnVictory()
+    public void OnVictory()
     {
 		SceneManager.LoadScene("VictoryScene");
 	}

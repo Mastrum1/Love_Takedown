@@ -21,7 +21,7 @@ public class Win : MonoBehaviour
         if (other.gameObject.tag == "Player") ;
         GameObject.Find("AudioManager").GetComponent<AudioController>().Music.loop = false;
         GameObject.Find("AudioManager").GetComponent<AudioController>().PlayMusic(GameObject.Find("AudioManager").GetComponent<AudioController>().Car[2]);
-        GameObject.Find("GameManager").GetComponent<GameManager>();
+        GameObject.Find("GameManager").GetComponent<GameManager>().OnVictory();
 
     }
 }

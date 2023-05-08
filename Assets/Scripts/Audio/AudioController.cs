@@ -20,14 +20,18 @@ public class AudioController : MonoBehaviour
 	public AudioClip[] Coeur1;
 	public AudioClip[] Coeur2;
 	public AudioClip[] Ennemy;
+	public AudioClip[] Car;
+	public AudioClip[] endSound;
 	public AudioClip lamp;
 	public AudioClip notification;
 	public AudioClip takedown;
 
+
 	public AudioSource Music;
-	private AudioSource m_Effect1;
+	public AudioSource m_Effect1;
 	private AudioSource m_Effect2;
-	private AudioSource[] SoundsAudio;
+    private AudioSource m_Effect3;
+    private AudioSource[] SoundsAudio;
 	private float timer;
 
 	private void Awake()
@@ -36,8 +40,8 @@ public class AudioController : MonoBehaviour
 		Music = SoundsAudio[0];
 		m_Effect1 = SoundsAudio[1];
 		m_Effect2 = SoundsAudio[2];
-
-		volume = Music.volume;
+        m_Effect2 = SoundsAudio[3];
+        volume = Music.volume;
 	}
 
 	// Start is called before the first frame update
@@ -90,8 +94,13 @@ public class AudioController : MonoBehaviour
 		m_Effect2.clip = source;
 		m_Effect2.Play();
 	}
+    public void PlayEffect3(AudioClip source)
+    {
+        m_Effect3.clip = source;
+        m_Effect3.Play();
+    }
 
-	public IEnumerator FadeOutVolumeMusic(float duration)
+    public IEnumerator FadeOutVolumeMusic(float duration)
 	{
 		float startVolume = gameObject.GetComponent<AudioSource>().volume;
 		while (Music.volume > 0)
