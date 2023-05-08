@@ -5,6 +5,7 @@ using System.Runtime.ExceptionServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -55,7 +56,27 @@ public class PlayerMovement : MonoBehaviour
                 sprintCharged = false;
                 StartCoroutine(Sprint(boost, sprintDuration, reloadDuration));
             }
-        };    
+        };
+
+        input.CharacterControls.Select.performed += ctx =>
+        {
+            if (!GameObject.Find("Phone").GetComponent<PhoneLogics>().gameStarted)
+            {
+                GameObject.Find("Phone").GetComponent<PhoneLogics>().gameStarted = true;
+                GameObject.Find("AudioManager").GetComponent<AudioController>().PlayMusic(GameObject.Find("AudioManager").GetComponent<AudioController>().Musics[2]);
+                StartCoroutine(hidePhone());
+            }
+        };
+
+        input.CharacterControls.hidePhone.performed += ctx =>
+        {
+            GameObject.Find("Phone").GetComponent<PhoneLogics>().phoneActive = false;
+        };
+
+        input.CharacterControls.showPhone.performed += ctx =>
+        {
+            GameObject.Find("Phone").GetComponent<PhoneLogics>().phoneActive = true;
+        };
     }
 
     IEnumerator Sprint(float speed, float sprintDuration, float reloadDuration)
@@ -84,6 +105,16 @@ public class PlayerMovement : MonoBehaviour
 
         if ((!movementPressed || !runPressed ) && isRunning)
             animator.SetBool(isRunningHash, false);
+
+        if (movementPressed && GameObject.Find("Phone").GetComponent<PhoneLogics>().gameStarted)
+        {
+            Vector3 PlayerForward = GameObject.FindGameObjectWithTag("Player").transform.forward;
+            Vector3 PlayerRight = GameObject.FindGameObjectWithTag("Player").transform.right;
+            Vector3 forwardRelative = PlayerForward * currentMovement.y;
+            Vector3 rightRelative = PlayerRight * currentMovement.x;
+            Vector3 moveDir = forwardRelative + rightRelative;
+            transform.position += Time.deltaTime * moveSpeed * moveDir;
+        }
     }
 
 
@@ -99,15 +130,7 @@ public class PlayerMovement : MonoBehaviour
     {
         handleMovement();
         handleRotation();
-        if (movementPressed)
-        {
-            Vector3 PlayerForward = GameObject.FindGameObjectWithTag("Player").transform.forward;
-            Vector3 PlayerRight = GameObject.FindGameObjectWithTag("Player").transform.right;
-            Vector3 forwardRelative = PlayerForward * currentMovement.y;
-            Vector3 rightRelative = PlayerRight * currentMovement.x;
-            Vector3 moveDir = forwardRelative + rightRelative;
-            transform.position += Time.deltaTime * moveSpeed * moveDir;
-        }
+
     }
 
     void OnEnable()
@@ -118,5 +141,11 @@ public class PlayerMovement : MonoBehaviour
     private void OnDisable()
     {
         input.CharacterControls.Disable();
+    }
+
+    IEnumerator hidePhone()
+    {
+        yield return new WaitForSeconds(2);
+        GameObject.Find("Phone").GetComponent<PhoneLogics>().phoneActive = false;
     }
 }

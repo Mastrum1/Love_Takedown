@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Drawing.Inspector.PropertyDrawers;
 using UnityEngine;
 
 public class AudioController : MonoBehaviour
@@ -20,6 +19,8 @@ public class AudioController : MonoBehaviour
     public AudioClip[] Coeur2;
     public AudioClip[] Ennemy;
     public AudioClip lamp;
+    public AudioClip notification;
+    public AudioClip takedown;
 
     public AudioSource Music;
     private AudioSource m_Effect1;
@@ -51,6 +52,8 @@ public class AudioController : MonoBehaviour
         Music.clip = Musics[0];
         Music.loop = true;
         Music.volume = volume;
+        m_Effect1.volume = volume - 0.10f;
+        m_Effect2.volume = volume - 0.10f;
         Music.Play();
 
         m_Effect1.clip = Damage1[0];

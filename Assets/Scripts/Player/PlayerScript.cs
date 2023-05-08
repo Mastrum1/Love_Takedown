@@ -46,6 +46,8 @@ public class PlayerScript : MonoBehaviour
 					currentHp--;
 					if (currentHp == 2)
 					TakeFirstDamage();
+					else if (currentHp == 1)
+					TakeSecondDamage();
 						
 				Debug.Log("Player HP: " + currentHp);
 			}
@@ -72,23 +74,36 @@ public class PlayerScript : MonoBehaviour
 	public void TakeFirstDamage()
 	{
 		GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().Reacts[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Reacts.Length)]);
-		StartCoroutine(waitForReact());
+		StartCoroutine(waitForReact1());
 	}
 
-	IEnumerator waitForReact()
+	IEnumerator waitForReact1()
 	{
 		yield return new WaitForSeconds(1f);
 		GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().Damage1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Damage1.Length)]);
 		GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect2(GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur1.Length)]);
+    }
 
+    public void TakeSecondDamage()
+    {
+        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().Reacts[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Reacts.Length)]);
+        StartCoroutine(waitForReact2());
+    }
+
+    IEnumerator waitForReact2()
+    {
+        yield return new WaitForSeconds(1f);
+        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().Damage1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Damage2.Length)]);
+        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect2(GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur2.Length)]);
     }
 
     IEnumerator ActivateTakedown()
 	{
-		Debug.Log("TAKEDOWN !!!!");
+        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().takedown);
+        Debug.Log("TAKEDOWN !!!!");
 		isTakedown = true;
 		movement.moveSpeed = 4.5f;
-		yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(8f);
 		isTakedown = false;
 		movement.moveSpeed = 3f;
 		adrenalineScript.adrenaline = 0;

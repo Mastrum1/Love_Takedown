@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PhoneLogics : MonoBehaviour
 {
-    [SerializeField] int connection = 4;
+    [SerializeField] public int connection = 4;
 
     [SerializeField] Image ConnectionFull;
     [SerializeField] Image Connection3;
@@ -15,13 +16,18 @@ public class PhoneLogics : MonoBehaviour
     [SerializeField] Image Connection0;
     [SerializeField] Image ConnectionLost;
     [SerializeField] Image ConnectionErrorText;
+    [SerializeField] Image current_taxiMark;
+    [SerializeField] Image transparent;
+    [SerializeField] Image saved_taxi_mark;
     [SerializeField] GameObject taxi;
     [SerializeField] GameObject myPhone;
-    [SerializeField] bool phoneActive = true;
+
+    [SerializeField] public bool phoneActive = true;
 
     public bool gameStarted = false;
 
     bool gone = false;
+    bool running;
 
 
     // Start is called before the first frame update
@@ -44,7 +50,7 @@ public class PhoneLogics : MonoBehaviour
 
             if (GameObject.Find("taxi"))
             {
-                GameObject.Find("taxi_mark1").gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("taxi_mark1").gameObject.transform.position, GameObject.Find("goto").transform.position, 0.1f);
+                GameObject.Find("taxi_mark1").gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("taxi_mark1").gameObject.transform.position, GameObject.Find("goto").transform.position, 0.01f);
                 if (GameObject.Find("taxi_mark1").gameObject.transform.position == GameObject.Find("checkpoint1").gameObject.transform.position)
                     GameObject.Find("goto").gameObject.transform.position = GameObject.Find("checkpoint2").gameObject.transform.position;
                 if (GameObject.Find("taxi_mark1").gameObject.transform.position == GameObject.Find("checkpoint2").gameObject.transform.position)
@@ -60,15 +66,16 @@ public class PhoneLogics : MonoBehaviour
                 if (!gone)
                     gone = true;
                 if (GameObject.Find("myPhone"))
-                    myPhone.gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("myPhone").gameObject.transform.position, GameObject.Find("hidePosition").transform.position, 1);
+                    myPhone.gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("myPhone").gameObject.transform.position, GameObject.Find("hidePosition").transform.position, 2);
             }
             else
             {
                 if (gone)
                     gone = false;
-                myPhone.gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("myPhone").gameObject.transform.position, GameObject.Find("showPosition").transform.position, 1);
+                myPhone.gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("myPhone").gameObject.transform.position, GameObject.Find("showPosition").transform.position, 2);
             }
             ConnectionUpdate(connection);
+            StartCoroutine(ConnectionChanger());
         }
     }
 
@@ -84,6 +91,7 @@ public class PhoneLogics : MonoBehaviour
                 Connection0.enabled = false;
                 ConnectionLost.enabled = false;
                 ConnectionErrorText.enabled = false;
+                current_taxiMark.enabled = true;
                 break;
             case 3:
                 ConnectionFull.enabled = false;
@@ -91,8 +99,6 @@ public class PhoneLogics : MonoBehaviour
                 Connection2.enabled = false;
                 Connection1.enabled = false;
                 Connection0.enabled = false;
-                ConnectionLost.enabled = false;
-                ConnectionErrorText.enabled = false;
                 break;
             case 2:
                 ConnectionFull.enabled = false;
@@ -100,8 +106,6 @@ public class PhoneLogics : MonoBehaviour
                 Connection2.enabled = true;
                 Connection1.enabled = false;
                 Connection0.enabled = false;
-                ConnectionLost.enabled = false;
-                ConnectionErrorText.enabled = false;
                 break;
             case 1:
                 ConnectionFull.enabled = false;
@@ -109,8 +113,6 @@ public class PhoneLogics : MonoBehaviour
                 Connection2.enabled = false;
                 Connection1.enabled = true;
                 Connection0.enabled = false;
-                ConnectionLost.enabled = false;
-                ConnectionErrorText.enabled = false;
                 break;
             case 0:
                 ConnectionFull.enabled = false;
@@ -120,7 +122,48 @@ public class PhoneLogics : MonoBehaviour
                 Connection0.enabled = true;
                 ConnectionLost.enabled = true;
                 ConnectionErrorText.enabled = true;
+                current_taxiMark.enabled = false;
                 break;
+        }    
+            }
+    IEnumerator ConnectionChanger()
+    {
+        if (!running)
+        {
+            running = true;
+            switch (connection)
+            {
+                case 1:
+                    if (Random.Range(0, 100) > 20)
+                    {
+                        current_taxiMark = transparent;
+                        ConnectionLost.enabled = true;
+                        ConnectionErrorText.enabled = true;
+                    }
+                    break;
+
+                case 2:
+                    if (Random.Range(0, 100) > 50)
+                    {
+                        current_taxiMark = transparent;
+                        ConnectionLost.enabled = true;
+                        ConnectionErrorText.enabled = true;
+                    }
+                    break;
+                case 3:
+                    if (Random.Range(0, 100) > 80)
+                    {
+                        current_taxiMark = transparent;
+                        ConnectionLost.enabled = true;
+                        ConnectionErrorText.enabled = true;
+                    }
+                    break;
+            }
+            yield return new WaitForSeconds(5);
+            current_taxiMark = saved_taxi_mark;
+            ConnectionLost.enabled = false;
+            ConnectionErrorText.enabled = false;
+            running = false;
         }
     }
 }
