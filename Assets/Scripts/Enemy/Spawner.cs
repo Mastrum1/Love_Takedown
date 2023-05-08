@@ -25,7 +25,7 @@ public class Spawner : MonoBehaviour
     {
         yield return new WaitForSeconds(spawnRate);
 
-        if (spawnActive)
+        if (spawnActive && GameObject.Find("Phone").GetComponent<PhoneLogics>().gameStarted)
         {
             switch (Random.Range(1, 6))
             {

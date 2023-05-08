@@ -46,7 +46,6 @@ public class PlayerScript : MonoBehaviour
 					currentHp--;
 					if (currentHp == 2)
 					TakeFirstDamage();
-					gameObject.GetComponent<Collider>().enabled = false;
 						
 				Debug.Log("Player HP: " + currentHp);
 			}

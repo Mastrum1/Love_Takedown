@@ -47,15 +47,18 @@ public class EnnemyMovement : MonoBehaviour
 
 	void Update()
 	{
-		float step = speed * Time.deltaTime;
-		gameObject.transform.LookAt(player.transform);
-		gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, player.transform.position, step);
-		timeUntilNextBurst -= Time.deltaTime;
-        if (timeUntilNextBurst <= 0)
+		if (GameObject.Find("Phone").GetComponent<PhoneLogics>().gameStarted)
 		{
-			StartCoroutine(Burst());
-			timeUntilNextBurst = Random.Range(10f, 15f);
-		}
+            float step = speed * Time.deltaTime;
+            gameObject.transform.LookAt(player.transform);
+            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, player.transform.position, step);
+            timeUntilNextBurst -= Time.deltaTime;
+            if (timeUntilNextBurst <= 0)
+            {
+                StartCoroutine(Burst());
+                timeUntilNextBurst = Random.Range(10f, 15f);
+            }
+        }
     }
 
 	IEnumerator Burst()
