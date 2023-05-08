@@ -8,12 +8,12 @@ public class EnnemyMovement : MonoBehaviour
 	public float speed;
 	public float normalSpeed;
 
-    [SerializeField] int burstDuration;
+	[SerializeField] int burstDuration;
 	[SerializeField] float burstSpeed;
 	[SerializeField] float minSprintDistance;
 	[SerializeField] int energy;
 
-    int isBurstActivate;
+	int isBurstActivate;
 	int energyRecoveryTime;
 	float maxEnnemySpeed;
 	float minEnnemySpeed;
@@ -24,13 +24,13 @@ public class EnnemyMovement : MonoBehaviour
 	GameObject player;
 	Animator animator;
 
-    int isRunningHash;
+	int isRunningHash;
 
-    private void Start()
+	private void Start()
 	{
 		animator = gameObject.GetComponent<Animator>();
-        isRunningHash = Animator.StringToHash("isRunning");
-        playerSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().baseMoveSpeed;
+		isRunningHash = Animator.StringToHash("isRunning");
+		playerSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().baseMoveSpeed;
 		minEnnemySpeed = playerSpeed - (playerSpeed / 6);
 		maxEnnemySpeed = playerSpeed - (playerSpeed / 2);
 		normalSpeed = Random.Range(minEnnemySpeed, maxEnnemySpeed);
@@ -43,37 +43,37 @@ public class EnnemyMovement : MonoBehaviour
 		burstDuration = GameObject.Find("GameManager").GetComponent<GameManager>().burstDuration;
 		energyRecoveryTime = GameObject.Find("GameManager").GetComponent<GameManager>().enemyEnergyRecoveryTime;
 		energy = GameObject.Find("GameManager").GetComponent<GameManager>().maxEnemyEnergy;
-    }
+	}
 
 	void Update()
 	{
 		if (GameObject.Find("Phone").GetComponent<PhoneLogics>().gameStarted)
 		{
-            float step = speed * Time.deltaTime;
-            gameObject.transform.LookAt(player.transform);
-            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, player.transform.position, step);
-            timeUntilNextBurst -= Time.deltaTime;
-            if (timeUntilNextBurst <= 0)
-            {
-                StartCoroutine(Burst());
-                timeUntilNextBurst = Random.Range(10f, 15f);
-            }
-        }
-    }
+			float step = speed * Time.deltaTime;
+			gameObject.transform.LookAt(player.transform);
+			gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, player.transform.position, step);
+			timeUntilNextBurst -= Time.deltaTime;
+			if (timeUntilNextBurst <= 0)
+			{
+				StartCoroutine(Burst());
+				timeUntilNextBurst = Random.Range(10f, 15f);
+			}
+		}
+	}
 
 	IEnumerator Burst()
 	{
 		isBurstActivate = Random.Range(0, 100);
-        distanceToPlayer = Vector3.Distance(gameObject.transform.position, player.transform.position);
+		distanceToPlayer = Vector3.Distance(gameObject.transform.position, player.transform.position);
 
 		if (distanceToPlayer <= minSprintDistance)
 			energy--;
-        if (distanceToPlayer <= minSprintDistance && isBurstActivate <= 50 && energy > 0)
+		if (distanceToPlayer <= minSprintDistance && isBurstActivate <= 50 && energy > 0)
 		{
-            speed = burstSpeed;
-            energy -= 5;
+			speed = burstSpeed;
+			energy -= 5;
 			animator.SetBool(isRunningHash, true);
-        }
+		}
 		yield return new WaitForSeconds(burstDuration);
 		speed = normalSpeed;
 		animator.SetBool(isRunningHash, false);
@@ -94,11 +94,11 @@ public class EnnemyMovement : MonoBehaviour
 	}
 
 #if UNITY_EDITOR
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(GameObject.FindGameObjectWithTag("Player").transform.position, minSprintDistance);
-    }
+	void OnDrawGizmos()
+	{
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawWireSphere(GameObject.FindGameObjectWithTag("Player").transform.position, minSprintDistance);
+	}
 #endif
 
 }

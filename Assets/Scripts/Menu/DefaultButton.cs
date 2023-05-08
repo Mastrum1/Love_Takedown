@@ -27,6 +27,7 @@ public class DefaultButton : MonoBehaviour
 			if (EventSystem.current.currentSelectedGameObject == menuButtons[i])
 			{
 				MenuState.Instance.LastSelectedButtonIndex = i;
+				Debug.Log("LastSelectedButtonIndex: " + i);
 				break;
 			}
 		}

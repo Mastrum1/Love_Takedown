@@ -37,5 +37,6 @@ public class GameManager : MonoBehaviour
 
     void OnVictory()
     {
-    }
+		SceneManager.LoadScene("VictoryScene");
+	}
 }
