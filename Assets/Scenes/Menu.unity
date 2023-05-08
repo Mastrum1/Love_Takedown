@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -905,7 +905,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fe98e53f01a2d41b2a4a49399ae0f33d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f70e37323e86b400b98fc3271897e4f4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1131,7 +1131,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 547fcad7f60034b1fbdd826958dfaf6e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d76fd9036428a4647bdf3c355dc2b446, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2343,13 +2343,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f190e4673ee7f5f44b182d4c74ec04d9, type: 3}
   - {fileID: 8300000, guid: 56733e5492ab9df4c90dc0c731909c6b, type: 3}
   - {fileID: 8300000, guid: 77f1c08e0853e494697d219512e72ca8, type: 3}
-  Car:
-  - {fileID: 8300000, guid: b7497e7635f68a143ba52cd1a47c3a31, type: 3}
-  - {fileID: 8300000, guid: 07c21e184d6181844a5c03be5be2c471, type: 3}
-  - {fileID: 8300000, guid: 27d4067254c72b84ca4f3c7aab82ecde, type: 3}
-  endSound:
-  - {fileID: 8300000, guid: 6fce51bf3d5f34848a5b20ba7b38105b, type: 3}
-  - {fileID: 8300000, guid: 0c17cfa3186447e48be031bb9d67856f, type: 3}
   lamp: {fileID: 8300000, guid: c4dfe896075510f4dbdd5722dd32c17d, type: 3}
   notification: {fileID: 0}
   takedown: {fileID: 0}
