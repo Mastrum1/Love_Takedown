@@ -8,24 +8,17 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     [SerializeField] int maxHp = 3;
-    [SerializeField] bool isTakedown = false;
-
+    [SerializeField] public bool isTakedown = false;
     public int currentHp;
-
-    Adrenaline adrenalineScript;
-	PlayerMovement movement;
 
 	void Start()
 	{
 		currentHp = maxHp;
-		adrenalineScript = gameObject.GetComponent<Adrenaline>();
-		movement = gameObject.GetComponent<PlayerMovement>();
+
 	}
 
 	void Update()
 	{
-		if (adrenalineScript.adrenaline >= adrenalineScript.maxAdrenaline)
-			StartCoroutine(ActivateTakedown());
 		GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineFramingTransposer>(). m_CameraDistance = (12 - ((maxHp - currentHp) * 6))+1;
 		if (currentHp == 3)
 			GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>().m_Lens.NearClipPlane = 21;
@@ -96,16 +89,4 @@ public class PlayerScript : MonoBehaviour
         GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().Damage1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Damage2.Length)]);
         GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect2(GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur2.Length)]);
     }
-
-    IEnumerator ActivateTakedown()
-	{
-        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().takedown);
-        Debug.Log("TAKEDOWN !!!!");
-		isTakedown = true;
-		movement.moveSpeed = 4.5f;
-        yield return new WaitForSeconds(8f);
-		isTakedown = false;
-		movement.moveSpeed = 3f;
-		adrenalineScript.adrenaline = 0;
-	}
 }

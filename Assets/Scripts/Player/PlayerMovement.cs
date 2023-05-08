@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed;
     [SerializeField] float sprintDuration = 1;
     [SerializeField] float reloadDuration = 3;
+
     public bool sprintCharged = true;
 
     Animator animator;
@@ -26,8 +27,12 @@ public class PlayerMovement : MonoBehaviour
     bool movementPressed = false;
     bool runPressed = false;
 
-	void Awake()
+    public Adrenaline adrenalineScript;
+    PlayerMovement movement;
+
+    void Awake()
     {
+        adrenalineScript = gameObject.GetComponent<Adrenaline>();
         input = new PlayerInput();
         moveSpeed = baseMoveSpeed;
         animator = GameObject.Find("madame").GetComponent<Animator>();
@@ -65,6 +70,11 @@ public class PlayerMovement : MonoBehaviour
                 GameObject.Find("Phone").GetComponent<PhoneLogics>().gameStarted = true;
                 GameObject.Find("AudioManager").GetComponent<AudioController>().PlayMusic(GameObject.Find("AudioManager").GetComponent<AudioController>().Musics[2]);
                 StartCoroutine(hidePhone());
+            }
+            else
+            {
+                if (adrenalineScript.adrenaline >= adrenalineScript.maxAdrenaline)
+                    StartCoroutine(ActivateTakedown(baseMoveSpeed*1.2f));
             }
         };
 
@@ -147,5 +157,17 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         GameObject.Find("Phone").GetComponent<PhoneLogics>().phoneActive = false;
+    }
+
+    IEnumerator ActivateTakedown(float speed)
+    {
+        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().takedown);
+        Debug.Log("TAKEDOWN !!!!");
+        adrenalineScript.adrenaline = 0;
+        GameObject.Find("Player").GetComponent<PlayerScript>().isTakedown = true;
+        moveSpeed += speed;
+        yield return new WaitForSeconds(5);
+        GameObject.Find("Player").GetComponent<PlayerScript>().isTakedown = false;
+        moveSpeed -= speed;
     }
 }
