@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +26,16 @@ public class GameManager : MonoBehaviour
         if (player.GetComponent<PlayerScript>().currentHp <= 0)
         {
             Debug.Log("Game Over");
+            OnDefeat();
         } 
+    }
+
+    void OnDefeat()
+    {
+		SceneManager.LoadScene("DefeatScene");
+	}
+
+    void OnVictory()
+    {
     }
 }

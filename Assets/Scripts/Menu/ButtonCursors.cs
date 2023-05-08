@@ -12,6 +12,8 @@ public class ButtonCursors : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 	EventSystem				eventSystem;
 	static ButtonCursors	lastSelectedWithMouse;
 
+	[SerializeField] public int buttonIndex;
+
 	public void Awake()
 	{
 		eventSystem = EventSystem.current;
@@ -50,6 +52,7 @@ public class ButtonCursors : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 			lastSelectedWithMouse.cursor.SetActive(false);
 		cursor.SetActive(true);
 		lastSelectedWithMouse = this;
+		MenuState.Instance.LastSelectedButtonIndex = buttonIndex;
 	}
 
 	public void OnDeselect(BaseEventData eventData)
