@@ -25,11 +25,13 @@ public class EnnemyMovement : MonoBehaviour
 	Animator animator;
 
     int isRunningHash;
+	int isWalkingHash;
 
     private void Start()
 	{
 		animator = gameObject.GetComponent<Animator>();
         isRunningHash = Animator.StringToHash("isRunning");
+        isWalkingHash = Animator.StringToHash("isWalking");
         playerSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().baseMoveSpeed;
 		minEnnemySpeed = playerSpeed - (playerSpeed / 6);
 		maxEnnemySpeed = playerSpeed - (playerSpeed / 2);

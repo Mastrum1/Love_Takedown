@@ -29,6 +29,7 @@ public class PhoneLogics : MonoBehaviour
     bool gone = false;
     bool running;
     public Adrenaline adrenalineScript;
+    public bool taxihere = false;
 
 
     // Start is called before the first frame update
@@ -55,7 +56,7 @@ public class PhoneLogics : MonoBehaviour
 
             if (GameObject.Find("taxi"))
             {
-                GameObject.Find("taxi_mark1").gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("taxi_mark1").gameObject.transform.position, GameObject.Find("goto").transform.position, 0.0285f);
+                GameObject.Find("taxi_mark1").gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("taxi_mark1").gameObject.transform.position, GameObject.Find("goto").transform.position, 1.023f);
                 if (GameObject.Find("taxi_mark1").gameObject.transform.position == GameObject.Find("checkpoint1").gameObject.transform.position)
                     GameObject.Find("goto").gameObject.transform.position = GameObject.Find("checkpoint2").gameObject.transform.position;
                 if (GameObject.Find("taxi_mark1").gameObject.transform.position == GameObject.Find("checkpoint2").gameObject.transform.position)
@@ -64,6 +65,8 @@ public class PhoneLogics : MonoBehaviour
                     GameObject.Find("goto").gameObject.transform.position = GameObject.Find("checkpoint4").gameObject.transform.position;
                 if (GameObject.Find("taxi_mark1").gameObject.transform.position == GameObject.Find("checkpoint4").gameObject.transform.position)
                     GameObject.Find("goto").gameObject.transform.position = GameObject.Find("checkpoint5").gameObject.transform.position;
+                if (GameObject.Find("taxi_mark1").gameObject.transform.position == GameObject.Find("checkpoint5").gameObject.transform.position)
+                    taxihere = true;
             }
 
             if (GameObject.Find("Player").GetComponent<PlayerMovement>().adrenalineScript.adrenaline >= GameObject.Find("Player").GetComponent<PlayerMovement>().adrenalineScript.maxAdrenaline)
