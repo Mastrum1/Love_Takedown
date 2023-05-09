@@ -161,7 +161,8 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator ActivateTakedown(float speed)
     {
-        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().takedown);
+        GameObject.Find("AudioManager").GetComponent<AudioController>().m_Effect3.loop = false;
+        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect3(GameObject.Find("AudioManager").GetComponent<AudioController>().takedown);
         Debug.Log("TAKEDOWN !!!!");
         adrenalineScript.adrenaline = 0;
         GameObject.Find("Player").GetComponent<PlayerScript>().isTakedown = true;
