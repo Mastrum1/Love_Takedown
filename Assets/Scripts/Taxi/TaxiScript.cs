@@ -51,11 +51,12 @@ public class TaxiScript : MonoBehaviour
 		}
 		Debug.Log("Taxi reached waiting point");
 		WinArea.SetActive(true );
-		yield return new WaitForSeconds(10f);
+		yield return new WaitForSeconds(11f);
 		Debug.Log("Taxi finished waiting");
 		StartCoroutine(Loose());
+        GameObject.Find("AudioManager").GetComponent<AudioController>().m_Effect3.loop = false;
         GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect3(GameObject.Find("AudioManager").GetComponent<AudioController>().Car[1]);
-        WinArea.SetActive(false );
+        WinArea.SetActive(false);
 		while (Vector3.Distance(taxi.transform.position, endPoint.transform.position) > 0.02f)
 		{
 			float step = taxiSpeed * Time.deltaTime;

@@ -8,7 +8,7 @@ public class VictoryScreenController : MonoBehaviour
 {
 	public Image VictoryImage;
 	public Image fadePanel;
-	public float fadeDuration = 3f;
+	public float fadeDuration = 5f;
 
 	void Start()
 	{
@@ -18,7 +18,7 @@ public class VictoryScreenController : MonoBehaviour
 
 	IEnumerator HandleVictoryScreen()
 	{
-		yield return new WaitForSeconds(6f);
+		yield return new WaitForSeconds(10f);
 
 		float timer = 0f;
 		Color fadeColor = fadePanel.color;
@@ -29,7 +29,10 @@ public class VictoryScreenController : MonoBehaviour
 			fadePanel.color = fadeColor;
 			yield return null;
 		}
-
-		SceneManager.LoadScene("Menu");
+        GameObject.Find("AudioManager").GetComponent<AudioController>().Music.loop = true;
+		GameObject.Find("AudioManager").GetComponent<AudioController>().m_Effect1.Stop();
+        GameObject.Find("AudioManager").GetComponent<AudioController>().m_Effect3.Stop();
+        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayMusic(GameObject.Find("AudioManager").GetComponent<AudioController>().Musics[0]);
+        SceneManager.LoadScene("Menu");
 	}
 }

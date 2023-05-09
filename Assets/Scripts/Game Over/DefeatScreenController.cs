@@ -12,7 +12,8 @@ public class DefeatScreenController : MonoBehaviour
 
 	void Start()
 	{
-		defeatImage.gameObject.SetActive(true);
+        GameObject.Find("AudioManager").GetComponent<AudioController>().m_Effect3.Stop();
+        defeatImage.gameObject.SetActive(true);
 		StartCoroutine(HandleDefeatScreen());
 	}
 
@@ -29,7 +30,9 @@ public class DefeatScreenController : MonoBehaviour
 			fadePanel.color = fadeColor;
 			yield return null;
 		}
-
-		SceneManager.LoadScene("Menu");
+        GameObject.Find("AudioManager").GetComponent<AudioController>().Music.loop = true;
+        GameObject.Find("AudioManager").GetComponent<AudioController>().m_Effect1.Stop();
+        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayMusic(GameObject.Find("AudioManager").GetComponent<AudioController>().Musics[0]);
+        SceneManager.LoadScene("Menu");
 	}
 }

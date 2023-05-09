@@ -56,7 +56,7 @@ public class PhoneLogics : MonoBehaviour
 
             if (GameObject.Find("taxi"))
             {
-                GameObject.Find("taxi_mark1").gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("taxi_mark1").gameObject.transform.position, GameObject.Find("goto").transform.position, 0.023f);
+                GameObject.Find("taxi_mark1").gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("taxi_mark1").gameObject.transform.position, GameObject.Find("goto").transform.position, 0.0612f);
                 if (GameObject.Find("taxi_mark1").gameObject.transform.position == GameObject.Find("checkpoint1").gameObject.transform.position)
                     GameObject.Find("goto").gameObject.transform.position = GameObject.Find("checkpoint2").gameObject.transform.position;
                 if (GameObject.Find("taxi_mark1").gameObject.transform.position == GameObject.Find("checkpoint2").gameObject.transform.position)
@@ -89,6 +89,7 @@ public class PhoneLogics : MonoBehaviour
             ConnectionUpdate(connection);
             StartCoroutine(ConnectionChanger());
         }
+        else myPhone.gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("myPhone").gameObject.transform.position, GameObject.Find("showPosition").transform.position, 3);
     }
 
     void ConnectionUpdate(int value)
@@ -146,7 +147,7 @@ public class PhoneLogics : MonoBehaviour
             switch (connection)
             {
                 case 1:
-                    if (Random.Range(0, 100) > 20)
+                    if (Random.Range(0, 100) > 30)
                     {
                         ConnectionLost.GetComponent<Image>().enabled = true;
                         ConnectionErrorText.GetComponent<Image>().enabled = true;

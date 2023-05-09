@@ -29,8 +29,8 @@ public class AudioController : MonoBehaviour
 
 	public AudioSource Music;
 	public AudioSource m_Effect1;
-	private AudioSource m_Effect2;
-    private AudioSource m_Effect3;
+	public AudioSource m_Effect2;
+    public AudioSource m_Effect3;
     private AudioSource[] SoundsAudio;
 	private float timer;
 
@@ -40,7 +40,7 @@ public class AudioController : MonoBehaviour
 		Music = SoundsAudio[0];
 		m_Effect1 = SoundsAudio[1];
 		m_Effect2 = SoundsAudio[2];
-        m_Effect2 = SoundsAudio[3];
+        m_Effect3 = SoundsAudio[3];
         volume = Music.volume;
 	}
 

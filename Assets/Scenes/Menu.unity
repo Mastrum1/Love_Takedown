@@ -2348,8 +2348,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 07c21e184d6181844a5c03be5be2c471, type: 3}
   - {fileID: 8300000, guid: 27d4067254c72b84ca4f3c7aab82ecde, type: 3}
   endSound:
-  - {fileID: 8300000, guid: 6fce51bf3d5f34848a5b20ba7b38105b, type: 3}
-  - {fileID: 8300000, guid: 0c17cfa3186447e48be031bb9d67856f, type: 3}
+  - {fileID: 8300000, guid: 967b9e37eb03c7444a0e9ba26ecdf080, type: 3}
+  - {fileID: 8300000, guid: 5c4a84c9b252dc543b7f020ae0724243, type: 3}
   lamp: {fileID: 8300000, guid: c4dfe896075510f4dbdd5722dd32c17d, type: 3}
   notification: {fileID: 8300000, guid: 5ff4e4e926fd5d7439be1dc586c49a78, type: 3}
   takedown: {fileID: 8300000, guid: 7aa9792583af52642acb78d107be768e, type: 3}

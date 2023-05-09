@@ -10,12 +10,13 @@ public class MainMenu : MonoBehaviour
 
     private void Awake()
     {
-		fade = GameObject.Find("Fade");
+        fade = GameObject.Find("Fade");
         fade.SetActive(false);
     }
     public void PlayGame()
-	{
-		GameObject.Find("AudioManager").GetComponent<AudioController>().Music.loop = false;
+    {
+        GameObject.Find("AudioManager").GetComponent<AudioController>().m_Effect1.loop = false;
+        GameObject.Find("AudioManager").GetComponent<AudioController>().Music.loop = false;
         GameObject.Find("AudioManager").GetComponent<AudioController>().PlayMusic(GameObject.Find("AudioManager").GetComponent<AudioController>().Musics[1]);
         fade.SetActive(true);
         StartCoroutine(m_PlayGame());
