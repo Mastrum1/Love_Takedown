@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2311,7 +2311,7 @@ MonoBehaviour:
   Musics:
   - {fileID: 8300000, guid: 11bfb202ff5a50e4495e4924f8fcb1f5, type: 3}
   - {fileID: 8300000, guid: 5faf286ffa940954ea6fec22162df7f8, type: 3}
-  - {fileID: 8300000, guid: 7af48595221202e45aa85d66ee3ee0e9, type: 3}
+  - {fileID: 8300000, guid: 014c7166a92efba40a7b5afed88d2ed6, type: 3}
   Reacts:
   - {fileID: 8300000, guid: 0b27e92086bdc004c9f3c8841e0bc3f4, type: 3}
   - {fileID: 8300000, guid: b96d64952ba0c574ab448c23d763014f, type: 3}
@@ -2343,10 +2343,18 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f190e4673ee7f5f44b182d4c74ec04d9, type: 3}
   - {fileID: 8300000, guid: 56733e5492ab9df4c90dc0c731909c6b, type: 3}
   - {fileID: 8300000, guid: 77f1c08e0853e494697d219512e72ca8, type: 3}
+  Car:
+  - {fileID: 8300000, guid: b7497e7635f68a143ba52cd1a47c3a31, type: 3}
+  - {fileID: 8300000, guid: 07c21e184d6181844a5c03be5be2c471, type: 3}
+  - {fileID: 8300000, guid: 27d4067254c72b84ca4f3c7aab82ecde, type: 3}
+  endSound:
+  - {fileID: 8300000, guid: 6fce51bf3d5f34848a5b20ba7b38105b, type: 3}
+  - {fileID: 8300000, guid: 0c17cfa3186447e48be031bb9d67856f, type: 3}
   lamp: {fileID: 8300000, guid: c4dfe896075510f4dbdd5722dd32c17d, type: 3}
-  notification: {fileID: 0}
-  takedown: {fileID: 0}
+  notification: {fileID: 8300000, guid: 5ff4e4e926fd5d7439be1dc586c49a78, type: 3}
+  takedown: {fileID: 8300000, guid: 7aa9792583af52642acb78d107be768e, type: 3}
   Music: {fileID: 0}
+  m_Effect1: {fileID: 0}
 --- !u!82 &2016229741
 AudioSource:
   m_ObjectHideFlags: 0
