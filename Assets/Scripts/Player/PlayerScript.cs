@@ -9,9 +9,12 @@ public class PlayerScript : MonoBehaviour
 {
     [SerializeField] int maxHp = 3;
     [SerializeField] public bool isTakedown = false;
+
     public int currentHp;
 
-	void Start()
+    bool isInvincible = false;
+
+    void Start()
 	{
 		currentHp = maxHp;
 
@@ -35,12 +38,13 @@ public class PlayerScript : MonoBehaviour
 		{
 			if (!isTakedown)
 			{
-				if (currentHp > 0)
+				if (currentHp > 0 && !isInvincible)
 					currentHp--;
 					if (currentHp == 2)
 					TakeFirstDamage();
 					else if (currentHp == 1)
 					TakeSecondDamage();
+					StartCoroutine(Invincibility());
 						
 				Debug.Log("Player HP: " + currentHp);
 			}
@@ -89,4 +93,11 @@ public class PlayerScript : MonoBehaviour
         GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().Damage1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Damage2.Length)]);
         GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect2(GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur2.Length)]);
     }
+
+	IEnumerator Invincibility()
+	{
+        isInvincible = true;
+        yield return new WaitForSeconds(2f);
+        isInvincible = false;
+	}
 }
