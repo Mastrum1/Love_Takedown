@@ -52,7 +52,8 @@ public class ButtonCursors : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 			lastSelectedWithMouse.cursor.SetActive(false);
 		cursor.SetActive(true);
 		lastSelectedWithMouse = this;
-		MenuState.Instance.LastSelectedButtonIndex = buttonIndex;
+		if (MenuState.Instance != null)
+			MenuState.Instance.LastSelectedButtonIndex = buttonIndex;
 	}
 
 	public void OnDeselect(BaseEventData eventData)

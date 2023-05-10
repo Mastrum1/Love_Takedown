@@ -8,13 +8,23 @@ public class DefaultButton : MonoBehaviour
 	[SerializeField]
 	GameObject[] menuButtons;
 
+	static int lastIndex = 0;
+
 	void Start()
 	{
 		if (MenuState.Instance != null && menuButtons != null)
 		{
-			EventSystem.current.SetSelectedGameObject(menuButtons[MenuState.Instance.LastSelectedButtonIndex]);
+			ButtonCursors[] allButtons = FindObjectsOfType<ButtonCursors>();
+			foreach (ButtonCursors button in allButtons)
+			{
+				if (button.buttonIndex == MenuState.Instance.LastSelectedButtonIndex)
+				{
+					EventSystem.current.SetSelectedGameObject(button.gameObject);
+					break;
+				}
+			}
 		}
-		else if (menuButtons != null)
+		else if (menuButtons != null && menuButtons.Length > 0)
 		{
 			EventSystem.current.SetSelectedGameObject(menuButtons[0]);
 		}
@@ -26,8 +36,7 @@ public class DefaultButton : MonoBehaviour
 		{
 			if (EventSystem.current.currentSelectedGameObject == menuButtons[i])
 			{
-				MenuState.Instance.LastSelectedButtonIndex = i;
-				Debug.Log("LastSelectedButtonIndex: " + i);
+				lastIndex = i;
 				break;
 			}
 		}
