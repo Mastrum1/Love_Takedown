@@ -62,6 +62,7 @@ public class PlayerScript : MonoBehaviour
 
 				force = (Vector3.up * launchForceUp) + (forceDirection * launchForceSide);
 				collision.gameObject.GetComponent<EnnemyMovement>().enabled = false;
+				collision.gameObject.GetComponent<CapsuleCollider>().enabled = false;
 				collision.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 				enemyRigidbody.AddForce(force, ForceMode.Impulse);
 			}

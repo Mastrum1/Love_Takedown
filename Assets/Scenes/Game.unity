@@ -8391,6 +8391,7 @@ MonoBehaviour:
   Takedown: {fileID: 828914343}
   taxi: {fileID: 1612909150}
   myPhone: {fileID: 805832581}
+  taxiSpeed: 0.0446
   phoneActive: 1
   gameStarted: 0
   adrenalineScript: {fileID: 0}

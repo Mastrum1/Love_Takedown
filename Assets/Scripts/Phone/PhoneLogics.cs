@@ -20,6 +20,7 @@ public class PhoneLogics : MonoBehaviour
     [SerializeField] Image Takedown;
     [SerializeField] GameObject taxi;
     [SerializeField] GameObject myPhone;
+    [SerializeField] float taxiSpeed;
 
 
     [SerializeField] public bool phoneActive = true;
@@ -56,7 +57,7 @@ public class PhoneLogics : MonoBehaviour
 
             if (GameObject.Find("taxi"))
             {
-                GameObject.Find("taxi_mark1").gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("taxi_mark1").gameObject.transform.position, GameObject.Find("goto").transform.position, 0.0612f);
+                GameObject.Find("taxi_mark1").gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("taxi_mark1").gameObject.transform.position, GameObject.Find("goto").transform.position, taxiSpeed);
                 if (GameObject.Find("taxi_mark1").gameObject.transform.position == GameObject.Find("checkpoint1").gameObject.transform.position)
                     GameObject.Find("goto").gameObject.transform.position = GameObject.Find("checkpoint2").gameObject.transform.position;
                 if (GameObject.Find("taxi_mark1").gameObject.transform.position == GameObject.Find("checkpoint2").gameObject.transform.position)
