@@ -18,7 +18,7 @@ public class Win : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player") ;
+        if (other.gameObject.tag == "Player")
         GameObject.Find("AudioManager").GetComponent<AudioController>().Music.loop = false;
         GameObject.Find("AudioManager").GetComponent<AudioController>().PlayMusic(GameObject.Find("AudioManager").GetComponent<AudioController>().Car[2]);
         GameObject.Find("GameManager").GetComponent<GameManager>().OnVictory();

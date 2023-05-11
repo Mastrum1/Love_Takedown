@@ -7,17 +7,16 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    [SerializeField] int maxHp = 3;
-    [SerializeField] public bool isTakedown = false;
+	[SerializeField] int maxHp = 3;
+	[SerializeField] public bool isTakedown = false;
 
-    public int currentHp;
+	public int currentHp;
+	public float invincibleTime = 2.0f;
+	public float timeSinceInvincible = 0.0f;
 
-    bool isInvincible = false;
-
-    void Start()
+	void Start()
 	{
 		currentHp = maxHp;
-
 	}
 
 	void Update()
@@ -29,25 +28,26 @@ public class PlayerScript : MonoBehaviour
 			GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>().m_Lens.NearClipPlane = 15;
 		else if (currentHp == 1)
 			GameObject.Find("VirtualCamera").GetComponent<CinemachineVirtualCamera>().m_Lens.NearClipPlane = 10;
+		timeSinceInvincible += Time.deltaTime;
 	}
 
-	private void OnCollisionEnter(Collision collision)
+	private void OnCollisionStay(Collision collision)
 	{
-		Debug.Log("Collision");
-		if (collision.gameObject.tag == "Enemy")
+//		Debug.Log("Collision");
+		if (collision.gameObject.tag == "Enemy" && timeSinceInvincible >= invincibleTime)
 		{
+			timeSinceInvincible = 0.0f;
 			if (!isTakedown)
 			{
-				if (currentHp > 0 && !isInvincible)
+				if (currentHp > 0)
 					currentHp--;
 					if (currentHp == 2)
 					TakeFirstDamage();
 					else if (currentHp == 1)
 					TakeSecondDamage();
-					StartCoroutine(Invincibility());
-						
 				Debug.Log("Player HP: " + currentHp);
 			}
+//		Takedown
 			else
 			{
 				float	launchForceUp = 8f;
@@ -80,25 +80,18 @@ public class PlayerScript : MonoBehaviour
 		yield return new WaitForSeconds(1f);
 		GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().Damage1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Damage1.Length)]);
 		GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect2(GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur1.Length)]);
-    }
+	}
 
-    public void TakeSecondDamage()
-    {
-        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().Reacts[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Reacts.Length)]);
-        StartCoroutine(waitForReact2());
-    }
-
-    IEnumerator waitForReact2()
-    {
-        yield return new WaitForSeconds(1f);
-        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().Damage1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Damage2.Length)]);
-        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect2(GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur2.Length)]);
-    }
-
-	IEnumerator Invincibility()
+	public void TakeSecondDamage()
 	{
-        isInvincible = true;
-        yield return new WaitForSeconds(2f);
-        isInvincible = false;
+		GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().Reacts[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Reacts.Length)]);
+		StartCoroutine(waitForReact2());
+	}
+
+	IEnumerator waitForReact2()
+	{
+		yield return new WaitForSeconds(1f);
+		GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect1(GameObject.Find("AudioManager").GetComponent<AudioController>().Damage1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Damage2.Length)]);
+		GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect2(GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur1[Random.Range(0, GameObject.Find("AudioManager").GetComponent<AudioController>().Coeur2.Length)]);
 	}
 }
