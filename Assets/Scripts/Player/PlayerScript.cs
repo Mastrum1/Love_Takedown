@@ -34,7 +34,7 @@ public class PlayerScript : MonoBehaviour
 	private void OnCollisionStay(Collision collision)
 	{
 //		Debug.Log("Collision");
-		if (collision.gameObject.tag == "Enemy" && timeSinceInvincible >= invincibleTime)
+		if (collision.gameObject.tag == "Enemy" && timeSinceInvincible >= invincibleTime || collision.gameObject.tag == "Enemy" && isTakedown)
 		{
 			timeSinceInvincible = 0.0f;
 			if (!isTakedown)

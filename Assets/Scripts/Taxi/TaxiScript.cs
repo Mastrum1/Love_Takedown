@@ -7,6 +7,7 @@ public class TaxiScript : MonoBehaviour
 	[SerializeField] GameObject taxi;
 	[SerializeField] float      taxiSpeed = 10f;
     [SerializeField] GameObject WinArea;
+	[SerializeField] float TaxiDistance;
 
     Rigidbody	rbody;
 
@@ -21,7 +22,8 @@ public class TaxiScript : MonoBehaviour
 		waitingPoint = GameObject.Find("waitingPoint");
 		endPoint = GameObject.Find("endPoint");
 		rbody = GetComponent<Rigidbody>();
-	}
+        TaxiDistance = Vector3.Distance(taxi.transform.position, waitingPoint.transform.position);
+    }
 
     private void Update()
     {
