@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MainMenu : MonoBehaviour
 {
 	GameObject	fade;
+	private EventSystem eventSystem;
 
 	private void Awake()
 	{
 		fade = GameObject.Find("Fade");
-
 		if (fade != null)
 		{
 			if (SceneManager.GetActiveScene().name == "Menu")
@@ -34,6 +35,21 @@ public class MainMenu : MonoBehaviour
 	{
 		Debug.Log("Quit!");
 		Application.Quit();
+	}
+
+	public void OptionsMenu()
+	{
+		SceneManager.LoadScene("OptionsMenu");
+	}
+
+	public void CreditMenu()
+	{
+		SceneManager.LoadScene("CreditsMenu");
+	}
+
+	public void BackButton()
+	{
+		SceneManager.LoadScene("Menu");
 	}
 
 	private IEnumerator m_PlayGame()

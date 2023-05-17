@@ -1,29 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.LowLevel;
 
 public class ButtonCursors : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
-	[SerializeField]
-	bool					defaultSelected = false;
-	public GameObject		cursor;
-	EventSystem				eventSystem;
-	static ButtonCursors	lastSelectedWithMouse;
+	public GameObject cursor;
+	EventSystem eventSystem;
+	static ButtonCursors lastSelectedWithMouse;
 
 	[SerializeField] public int buttonIndex;
 
 	public void Awake()
 	{
 		eventSystem = EventSystem.current;
-		if (defaultSelected)
-		{
-			eventSystem.SetSelectedGameObject(gameObject);
-			cursor.SetActive(true);
-		}
-		else
-			cursor.SetActive(false);
+		eventSystem.SetSelectedGameObject(gameObject);
+		cursor.SetActive(true);
 	}
 
 	public void Update()
@@ -47,18 +40,14 @@ public class ButtonCursors : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 	public void OnSelect(BaseEventData eventData)
 	{
-		Debug.Log("Button selected: " + gameObject.name);
 		if (lastSelectedWithMouse && lastSelectedWithMouse != this)
 			lastSelectedWithMouse.cursor.SetActive(false);
 		cursor.SetActive(true);
 		lastSelectedWithMouse = this;
-		if (MenuState.Instance != null)
-			MenuState.Instance.LastSelectedButtonIndex = buttonIndex;
 	}
 
 	public void OnDeselect(BaseEventData eventData)
 	{
-		Debug.Log("Button deselected: " + gameObject.name);
 		if (eventSystem.currentSelectedGameObject != gameObject)
 			cursor.SetActive(false);
 	}
