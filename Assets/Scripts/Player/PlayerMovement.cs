@@ -11,65 +11,64 @@ public class PlayerMovement : MonoBehaviour
 {
     public float baseMoveSpeed = 3f ;
     public float moveSpeed;
-    [SerializeField] float sprintDuration = 1;
-    [SerializeField] float reloadDuration = 3;
 
     public bool sprintCharged = true;
-
-    Animator animator;
-
-    int isWalkingHash;
-    int isRunningHash;
-
-    PlayerInput input;
-
-    Vector2 currentMovement;
-    bool movementPressed = false;
-    bool runPressed = false;
-
     public Adrenaline adrenalineScript;
-    PlayerMovement movement;
+    
+    [SerializeField] float sprintDuration = 1;
+    [SerializeField] float reloadDuration = 3;
+    
+    [SerializeField] private Animator animator;
+    [SerializeField] private PhoneLogics phoneLogics;
+    [SerializeField] private PlayerScript playerScript;
 
-    void Awake()
+    private readonly int _isWalkingHash = Animator.StringToHash("isWalking");
+    private readonly int _isRunningHash = Animator.StringToHash("isRunning");
+    private PlayerInput _input;
+
+    private Vector2 _currentMovement;
+    private bool _movementPressed;
+    private bool _runPressed;
+
+    private PlayerMovement _movement;
+    private AudioController _audioController;
+
+    private void Awake()
     {
-        adrenalineScript = gameObject.GetComponent<Adrenaline>();
-        input = new PlayerInput();
+        _input = new PlayerInput();
         moveSpeed = baseMoveSpeed;
-        animator = GameObject.Find("madame").GetComponent<Animator>();
+        _audioController = GameObject.Find("AudioManager").GetComponent<AudioController>();
 
-        isWalkingHash = Animator.StringToHash("isWalking");
-        isRunningHash = Animator.StringToHash("isRunning");
-
-        input.CharacterControls.Movement.performed += ctx =>
+        _input.CharacterControls.Movement.performed += ctx =>
         {
-            currentMovement = ctx.ReadValue<Vector2>();
-            movementPressed = currentMovement.x != 0 || currentMovement.y != 0;
+            _currentMovement = ctx.ReadValue<Vector2>();
+            _movementPressed = _currentMovement.x != 0 || _currentMovement.y != 0;
         };
         
-        input.CharacterControls.Movement.canceled += ctx =>
+        _input.CharacterControls.Movement.canceled += ctx =>
         {
-            currentMovement = Vector2.zero;
-            movementPressed = false;
+            _currentMovement = Vector2.zero;
+            _movementPressed = false;
         };
 
-        input.CharacterControls.Sprint.performed += ctx =>
+        _input.CharacterControls.Sprint.performed += ctx =>
         {
             if (sprintCharged)
             {
-                runPressed = true;
+                _runPressed = true;
                 float boost = baseMoveSpeed * 1.2f;
                 sprintCharged = false;
-                StartCoroutine(Sprint(boost, sprintDuration, reloadDuration));
+                StartCoroutine(Sprint(boost));
             }
         };
 
-        input.CharacterControls.Select.performed += ctx =>
+        _input.CharacterControls.Select.performed += ctx =>
         {
-            if (!GameObject.Find("Phone").GetComponent<PhoneLogics>().gameStarted)
+            if (!phoneLogics.gameStarted)
             {
-                GameObject.Find("Phone").GetComponent<PhoneLogics>().gameStarted = true;
-                GameObject.Find("AudioManager").GetComponent<AudioController>().PlayMusic(GameObject.Find("AudioManager").GetComponent<AudioController>().Musics[2]);
-                StartCoroutine(hidePhone());
+                phoneLogics.gameStarted = true;
+                _audioController.PlayMusic(_audioController.Musics[2]);
+                StartCoroutine(HidePhone());
             }
             else
             {
@@ -78,97 +77,93 @@ public class PlayerMovement : MonoBehaviour
             }
         };
 
-        input.CharacterControls.hidePhone.performed += ctx =>
+        _input.CharacterControls.hidePhone.performed += ctx =>
         {
             GameObject.Find("Phone").GetComponent<PhoneLogics>().phoneActive = false;
         };
 
-        input.CharacterControls.showPhone.performed += ctx =>
+        _input.CharacterControls.showPhone.performed += ctx =>
         {
             GameObject.Find("Phone").GetComponent<PhoneLogics>().phoneActive = true;
         };
     }
 
-    IEnumerator Sprint(float speed, float sprintDuration, float reloadDuration)
+    IEnumerator Sprint(float speed)
     {
         moveSpeed += speed;
         yield return new WaitForSeconds(sprintDuration);
-        runPressed = false;
+        _runPressed = false;
         moveSpeed -= speed;
         yield return new WaitForSeconds(reloadDuration);
         sprintCharged = true;
     }
 
-    void handleMovement()
+    void HandleMovement()
     {
-        bool isWalking = animator.GetBool(isWalkingHash);
-        bool isRunning = animator.GetBool(isRunningHash);
+        bool isWalking = animator.GetBool(_isWalkingHash);
+        bool isRunning = animator.GetBool(_isRunningHash);
 
-        if (movementPressed && !isWalking)
-            animator.SetBool(isWalkingHash, true);
+        if (_movementPressed && !isWalking)
+            animator.SetBool(_isWalkingHash, true);
 
-        if (!movementPressed && isWalking)
-            animator.SetBool(isWalkingHash, false);
+        if (!_movementPressed && isWalking)
+            animator.SetBool(_isWalkingHash, false);
 
-        if ((movementPressed && runPressed) && !isRunning)
-            animator.SetBool(isRunningHash, true);
+        if ((_movementPressed && _runPressed) && !isRunning)
+            animator.SetBool(_isRunningHash, true);
 
-        if ((!movementPressed || !runPressed ) && isRunning)
-            animator.SetBool(isRunningHash, false);
+        if ((!_movementPressed || !_runPressed ) && isRunning)
+            animator.SetBool(_isRunningHash, false);
 
-        if (movementPressed && GameObject.Find("Phone").GetComponent<PhoneLogics>().gameStarted)
+        if (_movementPressed && phoneLogics.gameStarted)
         {
-            Vector3 PlayerForward = GameObject.FindGameObjectWithTag("Player").transform.forward;
-            Vector3 PlayerRight = GameObject.FindGameObjectWithTag("Player").transform.right;
-            Vector3 forwardRelative = PlayerForward * currentMovement.y;
-            Vector3 rightRelative = PlayerRight * currentMovement.x;
-            Vector3 moveDir = forwardRelative + rightRelative;
+            Vector3 moveDir = new Vector3(_currentMovement.x, 0, _currentMovement.y);
             transform.position += Time.deltaTime * moveSpeed * moveDir;
         }
     }
 
 
-    void handleRotation()
+    private void HandleRotation()
     {
-        Vector3 currentPosition = GameObject.Find("madame").transform.position; 
-        Vector3 newPosition = new Vector3(currentMovement.x, 0, currentMovement.y);
+        Vector3 currentPosition = transform.position; 
+        Vector3 newPosition = new Vector3(_currentMovement.x, 0, _currentMovement.y);
         Vector3 positionToLookAt = currentPosition + newPosition;
-        GameObject.Find("madame").transform.LookAt(positionToLookAt);
+        transform.LookAt(positionToLookAt);
     }
     
     private void Update()
     {
-        handleMovement();
-        handleRotation();
+        HandleMovement();
+        HandleRotation();
 
     }
 
     void OnEnable()
     {
-        input.CharacterControls.Enable();
+        _input.CharacterControls.Enable();
     }
 
     private void OnDisable()
     {
-        input.CharacterControls.Disable();
+        _input.CharacterControls.Disable();
     }
 
-    IEnumerator hidePhone()
+    IEnumerator HidePhone()
     {
         yield return new WaitForSeconds(2);
-        GameObject.Find("Phone").GetComponent<PhoneLogics>().phoneActive = false;
+        phoneLogics.phoneActive = false;
     }
 
     IEnumerator ActivateTakedown(float speed)
     {
-        GameObject.Find("AudioManager").GetComponent<AudioController>().m_Effect3.loop = false;
-        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayEffect3(GameObject.Find("AudioManager").GetComponent<AudioController>().takedown);
+        _audioController.m_Effect3.loop = false;
+        _audioController.PlayEffect3(_audioController.takedown);
         Debug.Log("TAKEDOWN !!!!");
         adrenalineScript.adrenaline = 0;
-        GameObject.Find("Player").GetComponent<PlayerScript>().isTakedown = true;
+        playerScript.isTakedown = true;
         moveSpeed += speed;
         yield return new WaitForSeconds(5);
-        GameObject.Find("Player").GetComponent<PlayerScript>().isTakedown = false;
+        playerScript.isTakedown = false;
         moveSpeed -= speed;
     }
 }

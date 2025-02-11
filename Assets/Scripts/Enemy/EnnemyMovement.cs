@@ -12,6 +12,7 @@ public class EnnemyMovement : MonoBehaviour
 	[SerializeField] float burstSpeed;
 	[SerializeField] float minSprintDistance;
 	[SerializeField] int energy;
+	[SerializeField] Animator animator;
 
     int isBurstActivate;
 	int energyRecoveryTime;
@@ -21,39 +22,42 @@ public class EnnemyMovement : MonoBehaviour
 	float playerSpeed;
 	float distanceToPlayer;
 
-	GameObject player;
-	Animator animator;
-
+	GameObject _player;
+	
     int isRunningHash;
 	int isWalkingHash;
 
+	private bool _gameStarted;
+	private GameManager _gameManager;
+
     private void Start()
-	{
-		animator = gameObject.GetComponent<Animator>();
+    {
+	    _gameStarted = GameObject.Find("Phone").GetComponent<PhoneLogics>().gameStarted;
+	    _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+		_player = GameObject.FindGameObjectWithTag("Player");
         isRunningHash = Animator.StringToHash("isRunning");
         isWalkingHash = Animator.StringToHash("isWalking");
-        playerSpeed = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().baseMoveSpeed;
+        playerSpeed = _player.GetComponent<PlayerMovement>().baseMoveSpeed;
 		minEnnemySpeed = playerSpeed - (playerSpeed / 6);
 		maxEnnemySpeed = playerSpeed - (playerSpeed / 2);
 		normalSpeed = Random.Range(minEnnemySpeed, maxEnnemySpeed);
 		burstSpeed = normalSpeed * 2;
 		speed = normalSpeed;
-		player = GameObject.FindGameObjectWithTag("Player");
-		timeUntilNextBurst = Random.Range(GameObject.Find("GameManager").GetComponent<GameManager>().minTimeUntilNextBurst, GameObject.Find("GameManager").GetComponent<GameManager>().maxTimeUntilNextBurst);
-		distanceToPlayer = Vector3.Distance(gameObject.transform.position, player.transform.position);
-		minSprintDistance = GameObject.Find("GameManager").GetComponent<GameManager>().enemyMinSprintDistance;
-		burstDuration = GameObject.Find("GameManager").GetComponent<GameManager>().burstDuration;
-		energyRecoveryTime = GameObject.Find("GameManager").GetComponent<GameManager>().enemyEnergyRecoveryTime;
-		energy = GameObject.Find("GameManager").GetComponent<GameManager>().maxEnemyEnergy;
+		timeUntilNextBurst = Random.Range(_gameManager.minTimeUntilNextBurst, _gameManager.maxTimeUntilNextBurst);
+		distanceToPlayer = Vector3.Distance(gameObject.transform.position, _player.transform.position);
+		minSprintDistance = _gameManager.enemyMinSprintDistance;
+		burstDuration = _gameManager.burstDuration;
+		energyRecoveryTime = _gameManager.enemyEnergyRecoveryTime;
+		energy = _gameManager.maxEnemyEnergy;
     }
 
 	void Update()
 	{
-		if (GameObject.Find("Phone").GetComponent<PhoneLogics>().gameStarted)
+		if (_gameStarted)
 		{
             float step = speed * Time.deltaTime;
-            gameObject.transform.LookAt(player.transform);
-            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, player.transform.position, step);
+            gameObject.transform.LookAt(_player.transform);
+            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, _player.transform.position, step);
             timeUntilNextBurst -= Time.deltaTime;
             if (timeUntilNextBurst <= 0)
             {
@@ -66,7 +70,7 @@ public class EnnemyMovement : MonoBehaviour
 	IEnumerator Burst()
 	{
 		isBurstActivate = Random.Range(0, 100);
-        distanceToPlayer = Vector3.Distance(gameObject.transform.position, player.transform.position);
+        distanceToPlayer = Vector3.Distance(gameObject.transform.position, _player.transform.position);
 
 		if (distanceToPlayer <= minSprintDistance)
 			energy--;
@@ -91,7 +95,7 @@ public class EnnemyMovement : MonoBehaviour
 			speed = normalSpeed/2;
 			yield return new WaitForSeconds(energyRecoveryTime);
 			speed = normalSpeed;
-			energy = GameObject.Find("GameManager").GetComponent<GameManager>().maxEnemyEnergy;
+			energy = _gameManager.maxEnemyEnergy;
 		}
 	}
 
@@ -99,7 +103,7 @@ public class EnnemyMovement : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(GameObject.FindGameObjectWithTag("Player").transform.position, minSprintDistance);
+        Gizmos.DrawWireSphere(_player.transform.position, minSprintDistance);
     }
 #endif
 
