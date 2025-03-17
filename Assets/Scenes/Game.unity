@@ -2359,6 +2359,7 @@ MonoBehaviour:
   burstDuration: 1
   enemyEnergyRecoveryTime: 15
   maxEnemyEnergy: 6
+  player: {fileID: 1519350555}
 --- !u!1 &584671835
 GameObject:
   m_ObjectHideFlags: 0
@@ -11513,6 +11514,8 @@ MonoBehaviour:
   maxAdrenaline: 100
   adrenaline: 0
   adrenalineIncreaseSpeed: 1
+  player: {fileID: 1519350549}
+  playerScript: {fileID: 1519350555}
 --- !u!1 &1521717406 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -3878090062165684843, guid: 148231d972fee084faa435502a2bac83,
@@ -13088,7 +13091,6 @@ MonoBehaviour:
   taxiSpeed: 0.0446
   phoneActive: 1
   gameStarted: 0
-  adrenalineScript: {fileID: 0}
   taxihere: 0
 --- !u!1 &1924794618 stripped
 GameObject:

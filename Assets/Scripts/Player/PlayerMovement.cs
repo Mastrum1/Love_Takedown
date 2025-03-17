@@ -1,11 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.ExceptionServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Windows;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -79,14 +74,24 @@ public class PlayerMovement : MonoBehaviour
 
         _input.CharacterControls.hidePhone.performed += ctx =>
         {
-            GameObject.Find("Phone").GetComponent<PhoneLogics>().phoneActive = false;
+            phoneLogics.phoneActive = false;
         };
 
         _input.CharacterControls.showPhone.performed += ctx =>
         {
-            GameObject.Find("Phone").GetComponent<PhoneLogics>().phoneActive = true;
+            phoneLogics.phoneActive = true;
         };
     }
+    
+    #if UNITY_EDITOR
+    private void Start()
+    {
+        if (!animator) Debug.LogError("Animator not found");
+        if (!phoneLogics) Debug.LogError("PhoneLogics not found");
+        if (!playerScript) Debug.LogError("PlayerScript not found");
+        if (!adrenalineScript) Debug.LogError("Adrenaline not found");
+    }
+#endif
 
     IEnumerator Sprint(float speed)
     {

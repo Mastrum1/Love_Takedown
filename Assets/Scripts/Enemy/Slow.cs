@@ -5,8 +5,9 @@ using UnityEngine;
 public class Slow : MonoBehaviour
 {
 
+    [SerializeField] private Light light;
     [SerializeField] float slowForce = 2;
-
+    
     bool working = true;
 
     // Start is called before the first frame update
@@ -18,10 +19,7 @@ public class Slow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!working)
-        {
-            gameObject.GetComponent<Light>().enabled = false;
-        }
+        if (!working) light.enabled = false;
     }
 
     void OnTriggerEnter (Collider collider)

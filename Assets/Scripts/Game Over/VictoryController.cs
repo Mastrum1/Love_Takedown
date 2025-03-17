@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -9,9 +8,13 @@ public class VictoryScreenController : MonoBehaviour
 	public Image VictoryImage;
 	public Image fadePanel;
 	public float fadeDuration = 5f;
+	
+	private AudioController audioController;
 
 	void Start()
 	{
+		audioController = GameObject.Find("AudioManager").GetComponent<AudioController>();
+		audioController.m_Effect3.Stop();
 		VictoryImage.gameObject.SetActive(true);
 		StartCoroutine(HandleVictoryScreen());
 	}
@@ -29,10 +32,10 @@ public class VictoryScreenController : MonoBehaviour
 			fadePanel.color = fadeColor;
 			yield return null;
 		}
-        GameObject.Find("AudioManager").GetComponent<AudioController>().Music.loop = true;
-		GameObject.Find("AudioManager").GetComponent<AudioController>().m_Effect1.Stop();
-        GameObject.Find("AudioManager").GetComponent<AudioController>().m_Effect3.Stop();
-        GameObject.Find("AudioManager").GetComponent<AudioController>().PlayMusic(GameObject.Find("AudioManager").GetComponent<AudioController>().Musics[0]);
+        audioController.Music.loop = true;
+		audioController.m_Effect1.Stop();
+        audioController.m_Effect3.Stop();
+        audioController.PlayMusic(audioController.Musics[0]);
         SceneManager.LoadScene("Menu");
 	}
 }

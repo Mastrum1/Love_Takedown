@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,28 +15,32 @@ public class PhoneLogics : MonoBehaviour
     [SerializeField] Image ConnectionErrorText;
     [SerializeField] Image taxiMark;
     [SerializeField] Image Takedown;
+    
     [SerializeField] GameObject taxi;
     [SerializeField] GameObject myPhone;
+    
     [SerializeField] float taxiSpeed;
-
 
     [SerializeField] public bool phoneActive = true;
 
     public bool gameStarted = false;
-
-    bool gone = false;
-    bool running;
-    public Adrenaline adrenalineScript;
     public bool taxihere = false;
+    
+    private bool gone = false;
+    private bool running;
 
 
     // Start is called before the first frame update
     void Start()
     {
-       GameObject.Find("taxi").SetActive(false);
+        #if UNITY_EDITOR
+            if (!taxi) Debug.LogError("Taxi not found");
+        #endif
+        
+        GameObject.Find("taxi").SetActive(false);
        Takedown.enabled = false;
-        ConnectionLost.GetComponent<Image>().enabled = false;
-        ConnectionErrorText.GetComponent<Image>().enabled = false;
+        ConnectionLost.enabled = false;
+        ConnectionErrorText.enabled = false;
 
     }
 
@@ -55,9 +56,10 @@ public class PhoneLogics : MonoBehaviour
                 GameObject.Find("StartMenu").SetActive(false);
             }
 
-            if (GameObject.Find("taxi"))
+            if (taxi)
             {
-                GameObject.Find("taxi_mark1").gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("taxi_mark1").gameObject.transform.position, GameObject.Find("goto").transform.position, taxiSpeed);
+                // Change all of this with SerializeField
+                taxiMark.gameObject.transform.position = Vector3.MoveTowards(GameObject.Find("taxi_mark1").gameObject.transform.position, GameObject.Find("goto").transform.position, taxiSpeed);
                 if (GameObject.Find("taxi_mark1").gameObject.transform.position == GameObject.Find("checkpoint1").gameObject.transform.position)
                     GameObject.Find("goto").gameObject.transform.position = GameObject.Find("checkpoint2").gameObject.transform.position;
                 if (GameObject.Find("taxi_mark1").gameObject.transform.position == GameObject.Find("checkpoint2").gameObject.transform.position)
@@ -98,45 +100,45 @@ public class PhoneLogics : MonoBehaviour
         switch (value)
         {
             case 4:
-                ConnectionFull.GetComponent<Image>().enabled = true;
-                Connection3.GetComponent<Image>().enabled = false;
-                Connection2.GetComponent<Image>().enabled = false;
-                Connection1.GetComponent<Image>().enabled = false;
-                Connection0.GetComponent<Image>().enabled = false;
-                ConnectionLost.GetComponent<Image>().enabled = false;
-                ConnectionErrorText.GetComponent<Image>().enabled = false;
-                taxiMark.GetComponent<Image>().enabled = true;
+                ConnectionFull.enabled = true;
+                Connection3.enabled = false;
+                Connection2.enabled = false;
+                Connection1.enabled = false;
+                Connection0.enabled = false;
+                ConnectionLost.enabled = false;
+                ConnectionErrorText.enabled = false;
+                taxiMark.enabled = true;
                 break;
             case 3:
-                ConnectionFull.GetComponent<Image>().enabled = false;
-                Connection3.GetComponent<Image>().enabled = true;
-                Connection2.GetComponent<Image>().enabled = false;
-                Connection1.GetComponent<Image>().enabled = false;
-                Connection0.GetComponent<Image>().enabled = false;
+                ConnectionFull.enabled = false;
+                Connection3.enabled = true;
+                Connection2.enabled = false;
+                Connection1.enabled = false;
+                Connection0.enabled = false;
                 break;
             case 2:
-                ConnectionFull.GetComponent<Image>().enabled = false;
-                Connection3.GetComponent<Image>().enabled = false;
-                Connection2.GetComponent<Image>().enabled = true;
-                Connection1.GetComponent<Image>().enabled = false;
-                Connection0.GetComponent<Image>().enabled = false;
+                ConnectionFull.enabled = false;
+                Connection3.enabled = false;
+                Connection2.enabled = true;
+                Connection1.enabled = false;
+                Connection0.enabled = false;
                 break;
             case 1:
-                ConnectionFull.GetComponent<Image>().enabled = false;
-                Connection3.GetComponent<Image>().enabled = false;
-                Connection2.GetComponent<Image>().enabled = false;
-                Connection1.GetComponent<Image>().enabled = true;
-                Connection0.GetComponent<Image>().enabled = false;
+                ConnectionFull.enabled = false;
+                Connection3.enabled = false;
+                Connection2.enabled = false;
+                Connection1.enabled = true;
+                Connection0.enabled = false;
                 break;
             case 0:
-                ConnectionFull.GetComponent<Image>().enabled = false;
-                Connection3.GetComponent<Image>().enabled = false;
-                Connection2.GetComponent<Image>().enabled = false;
-                Connection1.GetComponent<Image>().enabled = false;
-                Connection0.GetComponent<Image>().enabled = true;
-                ConnectionLost.GetComponent<Image>().enabled = true;
-                ConnectionErrorText.GetComponent<Image>().enabled = true;
-                taxiMark.GetComponent<Image>().enabled = false;
+                ConnectionFull.enabled = false;
+                Connection3.enabled = false;
+                Connection2.enabled = false;
+                Connection1.enabled = false;
+                Connection0.enabled = true;
+                ConnectionLost.enabled = true;
+                ConnectionErrorText.enabled = true;
+                taxiMark.enabled = false;
                 break;
         }    
             }
@@ -150,33 +152,33 @@ public class PhoneLogics : MonoBehaviour
                 case 1:
                     if (Random.Range(0, 100) > 30)
                     {
-                        ConnectionLost.GetComponent<Image>().enabled = true;
-                        ConnectionErrorText.GetComponent<Image>().enabled = true;
-                        taxiMark.GetComponent<Image>().enabled = false;
+                        ConnectionLost.enabled = true;
+                        ConnectionErrorText.enabled = true;
+                        taxiMark.enabled = false;
                     }
                     break;
 
                 case 2:
                     if (Random.Range(0, 100) > 50)
                     {
-                        ConnectionLost.GetComponent<Image>().enabled = true;
-                        ConnectionErrorText.GetComponent<Image>().enabled = true;
-                        taxiMark.GetComponent<Image>().enabled = false;
+                        ConnectionLost.enabled = true;
+                        ConnectionErrorText.enabled = true;
+                        taxiMark.enabled = false;
                     }
                     break;
                 case 3:
                     if (Random.Range(0, 100) > 80)
                     {
-                        ConnectionLost.GetComponent<Image>().enabled = true;
-                        ConnectionErrorText.GetComponent<Image>().enabled = true;
-                        taxiMark.GetComponent<Image>().enabled = false;
+                        ConnectionLost.enabled = true;
+                        ConnectionErrorText.enabled = true;
+                        taxiMark.enabled = false;
                     }
                     break;
             }
             yield return new WaitForSeconds(5);
-            ConnectionLost.GetComponent<Image>().enabled = false;
-            ConnectionErrorText.GetComponent<Image>().enabled = false;
-            taxiMark.GetComponent<Image>().enabled = true;
+            ConnectionLost.enabled = false;
+            ConnectionErrorText.enabled = false;
+            taxiMark.enabled = true;
             running = false;
         }
     }

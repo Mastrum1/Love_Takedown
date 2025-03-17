@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.LowLevel;
 
 public class ButtonCursors : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
 {
@@ -21,7 +18,7 @@ public class ButtonCursors : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
 	public void Update()
 	{
-		if (eventSystem.currentSelectedGameObject == null && lastSelectedWithMouse == this)
+		if (!eventSystem.currentSelectedGameObject && lastSelectedWithMouse == this)
 			eventSystem.SetSelectedGameObject(gameObject);
 	}
 

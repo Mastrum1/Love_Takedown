@@ -1,17 +1,23 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Adrenaline : MonoBehaviour
 {
 	public int maxAdrenaline = 100;
 	public float adrenaline;
+	
 	[SerializeField] float adrenalineIncreaseSpeed;
-	GameObject player;
+	[SerializeField] private GameObject player;
+	[SerializeField] private PlayerScript playerScript;
 
 	void Start()
 	{
-		player = GameObject.FindGameObjectWithTag("Player");
+		#if UNITY_EDITOR
+			if (!player) Debug.LogError("Player not found");
+			if (!playerScript) Debug.LogError("PlayerScript not found");
+			if (maxAdrenaline == 0) Debug.LogError("Max adrenaline is 0");
+		#endif
+		
 		adrenalineIncreaseSpeed = 1f;
 		adrenaline = 0f;
 		StartCoroutine(Timer());
@@ -25,7 +31,7 @@ public class Adrenaline : MonoBehaviour
 	float IncreaseAdrenaline()
 	{
 		float IncreaseSpeed;
-		int playerHP = player.GetComponent<PlayerScript>().currentHp;
+		int playerHP = playerScript.currentHp;
 		int HowManyEnemiesAround;
 		float HowManyPerSeconds;
 		float Multiplier = 1;
